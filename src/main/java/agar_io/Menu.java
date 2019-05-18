@@ -61,9 +61,9 @@ public class Menu implements MouseListener {
 //        g2.fillOval(DisplayGame.WIDTH/2-73, DisplayGame.HEIGHT/2-250, 150, 150);
 //        g2.setColor(Color.ORANGE);
         g2.drawString("AGH.IO", DisplayGame.WIDTH/2-80, 300);
-        g2.setColor(Color.YELLOW);
-        g2.fillOval(calculateElementsStartWidth(), calculateOvalStartHeight(), OVAL_WIDTH, OVAL_HEIGHT);
-        g2.setColor(Color.ORANGE);
+//        g2.setColor(Color.YELLOW);
+//        g2.fillOval(calculateElementsStartWidth(), calculateOvalStartHeight(), OVAL_WIDTH, OVAL_HEIGHT);
+//        g2.setColor(Color.ORANGE);
 //        g2.drawString(TITLE, calculateOvalStartWidth(), TITLE_HEIGHT);
         g2.setColor(Color.BLACK);
         g2.drawString("Play", playButton.x, playButton.y+40);
