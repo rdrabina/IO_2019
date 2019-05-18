@@ -1,8 +1,6 @@
 package agar_io;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
+import javax.swing.*;
 import java.io.IOException;
 
 import static constant.Constants.*;
@@ -22,8 +20,8 @@ public class Main {
         frame.add(pane);
         frame.setSize(currentWidth, currentHeight);
         panel.setvPort(vport);
-//        pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-//        pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
