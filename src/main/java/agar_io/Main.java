@@ -3,7 +3,6 @@ package agar_io;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import javax.swing.ScrollPaneConstants;
 import java.io.IOException;
 
 public class Main {

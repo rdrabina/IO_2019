@@ -1,5 +1,8 @@
 package agar_io;
 
+import constant.Constants;
+import game.GameState;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,18 +13,13 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class DisplayGame extends JPanel implements ActionListener{
+public class DisplayGame extends JPanel implements ActionListener {
     private Rectangle outerArea;
-    public static int WIDTH=840;
-    public static int HEIGHT=680;
+    public static int WIDTH=Constants.WINDOW_WIDTH;
+    public static int HEIGHT=Constants.WINDOW_HEIGHT;
     private int numoffoods=1000;
     private Players player1;
     private JViewport vPort;
@@ -31,14 +29,7 @@ public class DisplayGame extends JPanel implements ActionListener{
     private Poisons poison;
     public Menu menu;
     private Point pointPlayer1;
-    private BufferedImage image;
-    public static enum STATE{
-        MENU,
-        GAME,
-        LOSE,
-        WIN
-    };
-    public static STATE state=STATE.MENU;
+    public static GameState state = GameState.MENU;
 
     public DisplayGame() throws IOException {
         Timer timer=new Timer(30,this);
@@ -55,7 +46,6 @@ public class DisplayGame extends JPanel implements ActionListener{
         outerArea= new Rectangle(0, 0, 200, 500);
         setPreferredSize(newSize);
         timer.start();
-        image = ImageIO.read(new File("map.png"));
     }
     public void setvPort(JViewport vPort) {
         this.vPort = vPort;
@@ -66,81 +56,80 @@ public class DisplayGame extends JPanel implements ActionListener{
         super.paintComponent(g);
         Graphics2D g2=(Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//        setBackground(Color.GRAY);
-        g.drawImage(image, 0, 0, this);
-        if(state==STATE.MENU){
-            menu.render(g2);
-        }
-        else if(state==STATE.GAME){
-            g.drawImage(image, 0, 0, this);
-
-            poison.drawPoisons(g2);
-            food.drawFood(g2);
-            player1.drawPlayers(g2);
-            player2.drawPlayers(g2);
-            pointPlayer1= new Point((int)(player1.getX()),(int)(player1.getY()));
-            menu.setPoint(pointPlayer1);
-            didBallIntersect();
-            printInfoBall(g2);
-            whoWon();
-            g2.draw(outerArea);
-            g2.dispose();
-        }
-        else if(state==STATE.WIN){
-            menu.player1Won(g2);
-        }
-        else if(state==STATE.LOSE){
-            menu.player2Won(g2);
-        }
-    }
-    public void whoWon(){
-        if(player1.getPlayer().height>player2.getPlayer().height&&player1.getPlayer().getBounds().intersects(player2.getPlayer().getBounds())){
-            state=STATE.WIN;
-        }
-        else if(player1.getPlayer().height<player2.getPlayer().height&&player1.getPlayer().getBounds().intersects(player2.getPlayer().getBounds())){
-            state=STATE.LOSE;
+        setBackground(Color.GRAY);
+        switch (state) {
+            case MENU:
+                menu.render(g2);
+                break;
+            case GAME:
+                poison.drawPoisons(g2);
+                food.drawFood(g2);
+                player1.drawPlayers(g2);
+                player2.drawPlayers(g2);
+                pointPlayer1= new Point((int)(player1.getX()),(int)(player1.getY()));
+                menu.setPoint(pointPlayer1);
+//            didBallIntersect();
+//            printInfoBall(g2);
+//            whoWon();
+                g2.draw(outerArea);
+                g2.dispose();
+                break;
+            case WIN:
+                menu.player1Won(g2);
+                break;
+            case LOSE:
+                menu.player2Won(g2);
+                break;
         }
     }
-    public void didBallIntersect(){
-        for (int i = 0; i < food.getFoods().length; i++) {
-            if(food.getFoods()[i]!=null && player1.getPlayer().getBounds().intersects(food.getFoods()[i].getBounds())){
-                food.getFoods()[i] = null;
-                player1.increaseSize();
-            }
-        }
-        for (int i = 0; i < food.getFoods().length; i++) {
-            if(food.getFoods()[i]!=null && player2.getPlayer().getBounds().intersects(food.getFoods()[i].getBounds())){
-                food.getFoods()[i] = null;
-                player2.increaseSize();
-            }
-        }
-        for (int i = 0; i < poison.getPoisons().length; i++) {
-            if(poison.getPoisons()[i]!=null && player1.getPlayer().getBounds().intersects(poison.getPoisons()[i].getBounds())){
-                poison.getPoisons()[i]=null;
-                player1.decreaseSize();
-            }
-        }
-        for (int i = 0; i < poison.getPoisons().length; i++) {
-            if(poison.getPoisons()[i]!=null && player2.getPlayer().getBounds().intersects(poison.getPoisons()[i].getBounds())){
-                poison.getPoisons()[i]=null;
-                player2.decreaseSize();
-            }
-        }
-
-    }
-    public void printInfoBall(Graphics2D g2){
-        g2.setColor(Color.ORANGE);
-        double a=TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
-        Font font= new Font("arial",Font.BOLD,15);
-        g2.setFont(font);
-        g2.drawString("SPEED: "+new DecimalFormat("##.##").format(player1.getVelocity()),(int)(player1.getX()-350), (int)(player1.getY()-300));
-        g2.drawString("RADIUS OF BALL: "+Math.floor(player1.getPlayer().height),(int)(player1.getX()-350), (int)(player1.getY()-280));
-        g2.drawString("TIME: "+a, (int)(player1.getX()-350),  (int)(player1.getY()-260));
-    }
+//    public void whoWon(){
+//        if(player1.getPlayer().height>player2.getPlayer().height&&player1.getPlayer().getBounds().intersects(player2.getPlayer().getBounds())){
+//            state=STATE.WIN;
+//        }
+//        else if(player1.getPlayer().height<player2.getPlayer().height&&player1.getPlayer().getBounds().intersects(player2.getPlayer().getBounds())){
+//            state=STATE.LOSE;
+//        }
+//    }
+//    public void didBallIntersect(){
+//        for (int i = 0; i < food.getFoods().length; i++) {
+//            if(food.getFoods()[i]!=null && player1.getPlayer().getBounds().intersects(food.getFoods()[i].getBounds())){
+//                food.getFoods()[i] = null;
+//                player1.increaseSize();
+//            }
+//        }
+//        for (int i = 0; i < food.getFoods().length; i++) {
+//            if(food.getFoods()[i]!=null && player2.getPlayer().getBounds().intersects(food.getFoods()[i].getBounds())){
+//                food.getFoods()[i] = null;
+//                player2.increaseSize();
+//            }
+//        }
+//        for (int i = 0; i < poison.getPoisons().length; i++) {
+//            if(poison.getPoisons()[i]!=null && player1.getPlayer().getBounds().intersects(poison.getPoisons()[i].getBounds())){
+//                poison.getPoisons()[i]=null;
+//                player1.decreaseSize();
+//            }
+//        }
+//        for (int i = 0; i < poison.getPoisons().length; i++) {
+//            if(poison.getPoisons()[i]!=null && player2.getPlayer().getBounds().intersects(poison.getPoisons()[i].getBounds())){
+//                poison.getPoisons()[i]=null;
+//                player2.decreaseSize();
+//            }
+//        }
+//
+//    }
+//    public void printInfoBall(Graphics2D g2){
+//        g2.setColor(Color.ORANGE);
+//        double a=TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+//        Font font= new Font("arial",Font.BOLD,15);
+//        g2.setFont(font);
+//        g2.drawString("SPEED: "+new DecimalFormat("##.##").format(player1.getVelocity()),(int)(player1.getX()-350), (int)(player1.getY()-300));
+//        g2.drawString("RADIUS OF BALL: "+Math.floor(player1.getPlayer().height),(int)(player1.getX()-350), (int)(player1.getY()-280));
+//        g2.drawString("TIME: "+a, (int)(player1.getX()-350),  (int)(player1.getY()-260));
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(state==STATE.GAME){
+        if (state==GameState.GAME) {
             Point mousePosition=getMousePosition();
             if(mousePosition==null)return;
             double dx = mousePosition.x - player1.getPlayer().x - player1.getPlayer().width/2;
