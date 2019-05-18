@@ -20,7 +20,11 @@
         </plugins>
     </build>
     <dependencies>
-
+        <dependency>
+            <groupId>com.jsoniter</groupId>
+            <artifactId>jsoniter</artifactId>
+            <version>0.9.23</version>
+        </dependency>
     </dependencies>
 
 </project>
