@@ -1,10 +1,13 @@
 package agar_io;
 
+import constant.Constants;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Food implements Serializable {
     private Ellipse2D.Double foods[];
@@ -58,10 +61,11 @@ public class Food implements Serializable {
 //    }
 
     public void initializeFoods(){
-        Random a=new Random();
         for (int i = 0; i < foods.length; i++) {
             if(foods[i] == null){
-                foods[i]= new Ellipse2D.Double(a.nextInt(4000), a.nextInt(3000), 9.3, 9.3);
+                foods[i]= new Ellipse2D.Double(
+                        ThreadLocalRandom.current().nextInt(Constants.WINDOW_WIDTH / 2, Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2),
+                        ThreadLocalRandom.current().nextInt(Constants.WINDOW_HEIGHT / 2, Constants.MAP_HEIGHT - Constants.WINDOW_HEIGHT / 2), 10, 10);
             }
         }
     }

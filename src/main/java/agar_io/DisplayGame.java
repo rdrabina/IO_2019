@@ -158,10 +158,10 @@ public class DisplayGame extends JPanel implements ActionListener {
                 double angle=Math.atan2(dy, dx);
 
                 if (isMouseOutsideOfPlayerCircle(mousePosition)){
-                    if (canPlayerMoveX(dx, mousePosition)) {
+                    if (canPlayerMoveX(dx)) {
                         player.getPlayer().x += (int)(player.getVelocity()*Math.cos(angle));
                     }
-                    if (true) {
+                    if (canPlayerMoveY(dy)) {
                         player.getPlayer().y += (int)(player.getVelocity()*Math.sin(angle));
                     }
                     Point view = new Point((int)player.getPlayer().x-currentWidth/2,(int)player.getPlayer().y-currentHeight/2);
@@ -183,11 +183,18 @@ public class DisplayGame extends JPanel implements ActionListener {
                 || mousePosition.getY() < y || mousePosition.getY() > y;
     }
 
-    private boolean canPlayerMoveX(double dx, Point mousePosition) {
+    private boolean canPlayerMoveX(double dx) {
         double x = player.getX();
-        System.out.println(x + " " + dx + " " + mousePosition.x + " " + mousePosition.y);
-        return (x <= Constants.WINDOW_WIDTH / 2 && dx > 0) || x >= Constants.WINDOW_WIDTH / 2
-                || (x >= Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2 && dx < 0) || x<= Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2;
+        return (x <= Constants.WINDOW_WIDTH / 2 && dx > 0)
+                || (x >= Constants.WINDOW_WIDTH / 2 && x < Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2)
+                || (x >= Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2 && dx < 0);
+    }
+
+    private boolean canPlayerMoveY(double dy) {
+        double y = player.getY();
+        return (y <= Constants.WINDOW_HEIGHT / 2 && dy > 0)
+                || (y >= Constants.WINDOW_HEIGHT / 2 && y < Constants.MAP_HEIGHT - Constants.WINDOW_HEIGHT / 2)
+                || (y >= Constants.MAP_HEIGHT - Constants.WINDOW_HEIGHT / 2 && dy < 0);
     }
     public Player getPlayer() {
         return player;
