@@ -22,7 +22,8 @@ public class DisplayGame extends JPanel implements ActionListener{
     private Rectangle outerArea;
     public static int WIDTH=840;
     public static int HEIGHT=680;
-    private int numoffoods=1000;
+    private int numoffoods=200;
+    private int eatenFoodCounter=0;
     private Players player1;
     private JViewport vPort;
     private Players player2;
@@ -50,12 +51,12 @@ public class DisplayGame extends JPanel implements ActionListener{
         player1= new Players();
         player2= new Players();
         poison= new Poisons(numoffoods/2);
-        food= new Foods(numoffoods);
+        food = new Foods(numoffoods);
         Dimension newSize = new Dimension(2000, 1600);
-        outerArea= new Rectangle(0, 0, 200, 500);
+    //    outerArea= new Rectangle(0, 0, 200, 500);
         setPreferredSize(newSize);
         timer.start();
-        image = ImageIO.read(new File("map.png"));
+//        image = ImageIO.read(new File("map.png"));
     }
     public void setvPort(JViewport vPort) {
         this.vPort = vPort;
@@ -69,12 +70,16 @@ public class DisplayGame extends JPanel implements ActionListener{
 //        setBackground(Color.GRAY);
         g.drawImage(image, 0, 0, this);
         if(state==STATE.MENU){
-            menu.render(g2);
+            try {
+                menu.render(g2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         else if(state==STATE.GAME){
             g.drawImage(image, 0, 0, this);
 
-            poison.drawPoisons(g2);
+//            poison.drawPoisons(g2);
             food.drawFood(g2);
             player1.drawPlayers(g2);
             player2.drawPlayers(g2);
@@ -83,7 +88,7 @@ public class DisplayGame extends JPanel implements ActionListener{
             didBallIntersect();
             printInfoBall(g2);
             whoWon();
-            g2.draw(outerArea);
+         //   g2.draw(outerArea);
             g2.dispose();
         }
         else if(state==STATE.WIN){
@@ -102,36 +107,48 @@ public class DisplayGame extends JPanel implements ActionListener{
         }
     }
     public void didBallIntersect(){
+
+//        Thread thread = new Thread(){
+//            public void run(){
+//                try {
+//                    TimeUnit.SECONDS.sleep(2);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                food = new Foods(food, numoffoods);
+//            }
+//        };
+
+
         for (int i = 0; i < food.getFoods().length; i++) {
             if(food.getFoods()[i]!=null && player1.getPlayer().getBounds().intersects(food.getFoods()[i].getBounds())){
                 food.getFoods()[i] = null;
                 player1.increaseSize();
+                eatenFoodCounter++;
+                if (eatenFoodCounter > 0.2 * numoffoods){
+//                    thread.start();
+                    food = new Foods(food, numoffoods);
+                }
+
             }
         }
+
+
         for (int i = 0; i < food.getFoods().length; i++) {
             if(food.getFoods()[i]!=null && player2.getPlayer().getBounds().intersects(food.getFoods()[i].getBounds())){
                 food.getFoods()[i] = null;
                 player2.increaseSize();
+                eatenFoodCounter++;
             }
         }
-        for (int i = 0; i < poison.getPoisons().length; i++) {
-            if(poison.getPoisons()[i]!=null && player1.getPlayer().getBounds().intersects(poison.getPoisons()[i].getBounds())){
-                poison.getPoisons()[i]=null;
-                player1.decreaseSize();
-            }
-        }
-        for (int i = 0; i < poison.getPoisons().length; i++) {
-            if(poison.getPoisons()[i]!=null && player2.getPlayer().getBounds().intersects(poison.getPoisons()[i].getBounds())){
-                poison.getPoisons()[i]=null;
-                player2.decreaseSize();
-            }
-        }
-
     }
+
+
+
     public void printInfoBall(Graphics2D g2){
         g2.setColor(Color.ORANGE);
         double a=TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
-        Font font= new Font("arial",Font.BOLD,15);
+        Font font= new Font("klavika",Font.BOLD,15);
         g2.setFont(font);
         g2.drawString("SPEED: "+new DecimalFormat("##.##").format(player1.getVelocity()),(int)(player1.getX()-350), (int)(player1.getY()-300));
         g2.drawString("RADIUS OF BALL: "+Math.floor(player1.getPlayer().height),(int)(player1.getX()-350), (int)(player1.getY()-280));

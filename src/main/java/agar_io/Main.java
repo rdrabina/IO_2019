@@ -1,15 +1,14 @@
 package agar_io;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
-import javax.swing.ScrollPaneConstants;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        JFrame frame= new JFrame("Agar.io 2019");
+        JFrame frame= new JFrame("AGH.IO 2019");
         JScrollPane pane= new JScrollPane();
         JViewport vport= new JViewport();
         DisplayGame panel= new DisplayGame();

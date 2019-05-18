@@ -15,10 +15,24 @@ public class Foods implements Serializable {
         foodColors= new Color[numoffoods];
         callOnce();
     }
+
+    Foods(Foods foods, int numoffoods){
+        this.foods = foods.getFoods();
+        this.foodColors = foods.getFoodColors();
+        callMore();
+    }
+
+
     public void callOnce(){
         randomFoodColorInitializer();
         initializeFoods();
     }
+
+    public void callMore(){
+        initializeFoods();
+    }
+
+
     public void randomFoodColorInitializer(){
         Random a=new Random();
 
@@ -36,12 +50,22 @@ public class Foods implements Serializable {
             }
         }
     }
+//    public void initializeFoods(){
+//        Random a=new Random();
+//        for (int i = 0; i < foods.length; i++) {
+//            foods[i]=new Ellipse2D.Double(a.nextInt(400), a.nextInt(300), 9.3, 9.3);
+//        }
+//    }
+
     public void initializeFoods(){
         Random a=new Random();
         for (int i = 0; i < foods.length; i++) {
-            foods[i]=new Ellipse2D.Double(a.nextInt(4000), a.nextInt(3000), 9.3, 9.3);
+            if(foods[i] == null){
+                foods[i]= new Ellipse2D.Double(a.nextInt(4000), a.nextInt(3000), 9.3, 9.3);
+            }
         }
     }
+
     public Ellipse2D.Double[] getFoods() {
         return foods;
     }

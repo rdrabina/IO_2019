@@ -13,7 +13,7 @@ public class Players implements Serializable {
     Random random;
     Players(){
         random= new Random();
-        Player=new Ellipse2D.Double(random.nextInt(500)+2000, random.nextInt(500)+1000, 25, 25);
+        Player=new Ellipse2D.Double(random.nextInt(500), random.nextInt(500), 25, 25);
         playerColor= new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255));
     }
     public void drawPlayers(Graphics2D g2){
