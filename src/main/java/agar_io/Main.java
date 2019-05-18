@@ -1,8 +1,8 @@
 package agar_io;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import java.io.IOException;
 
 public class Main {

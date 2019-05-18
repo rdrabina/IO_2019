@@ -1,5 +1,8 @@
 package agar_io;
 
+import constant.Constants;
+import game.GameState;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,19 +13,14 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class DisplayGame extends JPanel implements ActionListener{
+public class DisplayGame extends JPanel implements ActionListener {
     private Rectangle outerArea;
-    public static int WIDTH=840;
-    public static int HEIGHT=680;
-    private int numoffoods=200;
+    public static int WIDTH=Constants.WINDOW_WIDTH;
+    public static int HEIGHT=Constants.WINDOW_HEIGHT;
+    private int numoffoods=1000;
     private int eatenFoodCounter=0;
     private Players player1;
     private JViewport vPort;
@@ -32,14 +30,7 @@ public class DisplayGame extends JPanel implements ActionListener{
     private Poisons poison;
     public Menu menu;
     private Point pointPlayer1;
-    private BufferedImage image;
-    public static enum STATE{
-        MENU,
-        GAME,
-        LOSE,
-        WIN
-    };
-    public static STATE state=STATE.MENU;
+    public static GameState state = GameState.MENU;
 
     public DisplayGame() throws IOException {
         Timer timer=new Timer(30,this);
@@ -56,7 +47,6 @@ public class DisplayGame extends JPanel implements ActionListener{
     //    outerArea= new Rectangle(0, 0, 200, 500);
         setPreferredSize(newSize);
         timer.start();
-//        image = ImageIO.read(new File("map.png"));
     }
     public void setvPort(JViewport vPort) {
         this.vPort = vPort;
@@ -157,7 +147,7 @@ public class DisplayGame extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(state==STATE.GAME){
+        if (state==GameState.GAME) {
             Point mousePosition=getMousePosition();
             if(mousePosition==null)return;
             double dx = mousePosition.x - player1.getPlayer().x - player1.getPlayer().width/2;
