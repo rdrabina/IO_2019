@@ -21,9 +21,9 @@ import javax.swing.*;
 import static constant.Constants.*;
 
 public class DisplayGame extends JPanel implements ActionListener{
-    private Rectangle outerArea;
     public static int WIDTH=840;
     public static int HEIGHT=680;
+
     private int numoffoods=1000;
     private Players player1;
     private JViewport vPort;
@@ -34,27 +34,28 @@ public class DisplayGame extends JPanel implements ActionListener{
     public Menu menu;
     private Point pointPlayer1;
     private BufferedImage image;
-    public static enum STATE{
+
+    public enum STATE{
         MENU,
         GAME,
         LOSE,
         WIN
     };
+
     public static STATE state=STATE.MENU;
 
     public DisplayGame() throws IOException {
         Timer timer=new Timer(30,this);
-        menu= new Menu(this);
-        time=System.nanoTime();
+        menu = new Menu(this);
+        time = System.nanoTime();
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
-        player1= new Players();
-        player2= new Players();
-        poison= new Poisons(numoffoods/2);
-        food= new Foods(numoffoods);
-        Dimension newSize = new Dimension(2000, 1600);
-        outerArea= new Rectangle(0, 0, 200, 500);
+        player1 = new Players();
+        player2 = new Players();
+        poison = new Poisons(numoffoods/2);
+        food = new Foods(numoffoods);
+        Dimension newSize = new Dimension(MAP_WIDTH, MAP_HEIGHT);
         setPreferredSize(newSize);
         timer.start();
         image = ImageIO.read(new File("map.png"));
@@ -85,7 +86,6 @@ public class DisplayGame extends JPanel implements ActionListener{
             didBallIntersect();
             printInfoBall(g2);
             whoWon();
-            g2.draw(outerArea);
             g2.dispose();
         }
         else if(state==STATE.WIN){
@@ -159,8 +159,8 @@ public class DisplayGame extends JPanel implements ActionListener{
                         mousePosition.getY()<player1.getPlayer().getBounds().getMinY()||
                         mousePosition.getY()>player1.getPlayer().getBounds().getMaxY()){
 
-                    player1.getPlayer().x+=(int)(player1.getVelocity()*Math.cos(angle));
-                    player1.getPlayer().y+=(int)(player1.getVelocity()*Math.sin(angle));
+                    player1.getPlayer().x += (int)(player1.getVelocity()*Math.cos(angle));
+                    player1.getPlayer().y += (int)(player1.getVelocity()*Math.sin(angle));
                     Point view = new Point((int)player1.getPlayer().x-currentWidth/2,(int)player1.getPlayer().y-currentHeight/2);
                     vPort.setViewPosition(view);
 

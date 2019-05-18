@@ -16,7 +16,6 @@ public class Main {
         DisplayGame panel= new DisplayGame();
 
         panel.menu.setArgs(args);
-        vport.add(panel);
         frame.setVisible(true);
         pane.setViewport(vport);
         vport.add(panel);

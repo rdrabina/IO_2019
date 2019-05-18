@@ -8,9 +8,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import static constant.Constants.*;
-
+// This kind of form reacts on changes in window's size
 public class FormResize extends JFrame {
-
 
 
     public FormResize(String title) {
