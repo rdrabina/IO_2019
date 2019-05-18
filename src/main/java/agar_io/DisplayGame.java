@@ -28,8 +28,7 @@ public class DisplayGame extends JPanel implements ActionListener {
     private int eatenFoodCounter=0;
     private Players player1;
     private JViewport vPort;
-    private Players player2;
-    private Foods food;
+    private Food food;
     private long time;
     private Poisons poison;
     public Menu menu;
