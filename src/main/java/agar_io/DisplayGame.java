@@ -14,6 +14,8 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
 public class DisplayGame extends JPanel implements ActionListener {
@@ -58,16 +60,16 @@ public class DisplayGame extends JPanel implements ActionListener {
         Graphics2D g2=(Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 //        setBackground(Color.GRAY);
-        g.drawImage(image, 0, 0, this);
-        if(state==STATE.MENU){
+//        g.drawImage(image, 0, 0, this);
+        if(state==GameState.MENU){
             try {
                 menu.render(g2);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        else if(state==STATE.GAME){
-            g.drawImage(image, 0, 0, this);
+        else if(state==GameState.GAME){
+//            g.drawImage(image, 0, 0, this);
 
 //            poison.drawPoisons(g2);
             food.drawFood(g2);
@@ -81,19 +83,19 @@ public class DisplayGame extends JPanel implements ActionListener {
          //   g2.draw(outerArea);
             g2.dispose();
         }
-        else if(state==STATE.WIN){
+        else if(state==GameState.WIN){
             menu.player1Won(g2);
         }
-        else if(state==STATE.LOSE){
+        else if(state==GameState.LOSE){
             menu.player2Won(g2);
         }
     }
     public void whoWon(){
         if(player1.getPlayer().height>player2.getPlayer().height&&player1.getPlayer().getBounds().intersects(player2.getPlayer().getBounds())){
-            state=STATE.WIN;
+            state=GameState.WIN;
         }
         else if(player1.getPlayer().height<player2.getPlayer().height&&player1.getPlayer().getBounds().intersects(player2.getPlayer().getBounds())){
-            state=STATE.LOSE;
+            state=GameState.LOSE;
         }
     }
     public void didBallIntersect(){
@@ -137,7 +139,7 @@ public class DisplayGame extends JPanel implements ActionListener {
 
     public void printInfoBall(Graphics2D g2){
         g2.setColor(Color.ORANGE);
-        double a=TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        double a= TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
         Font font= new Font("klavika",Font.BOLD,15);
         g2.setFont(font);
         g2.drawString("SPEED: "+new DecimalFormat("##.##").format(player1.getVelocity()),(int)(player1.getX()-350), (int)(player1.getY()-300));

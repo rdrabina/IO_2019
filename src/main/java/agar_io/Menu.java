@@ -47,16 +47,14 @@ public class Menu implements MouseListener {
     public void render(Graphics2D g2) throws IOException {
 
         BufferedImage img = ImageIO.read(new File("100LAT_AGH.jpg"));
-        int w = img.getWidth(null);
-        int h = img.getHeight(null);
-        BufferedImage bi = new
-                BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+//        int w = img.getWidth(null);
+//        int h = img.getHeight(null);
+//        BufferedImage bi = new
+//                BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
         g2.drawImage(img, DisplayGame.WIDTH/2-334, 0, 667, 250, null);
 
 
-        Font font= new Font("klavika", Font.BOLD,50);
-    public void render(Graphics2D g2){
         Font font= new Font(FONT, Font.BOLD,50);
         g2.setFont(font);
 //        g2.setColor(Color.YELLOW);
@@ -66,7 +64,7 @@ public class Menu implements MouseListener {
         g2.setColor(Color.YELLOW);
         g2.fillOval(calculateElementsStartWidth(), calculateOvalStartHeight(), OVAL_WIDTH, OVAL_HEIGHT);
         g2.setColor(Color.ORANGE);
-        g2.drawString(TITLE, calculateOvalStartWidth(), TITLE_HEIGHT);
+//        g2.drawString(TITLE, calculateOvalStartWidth(), TITLE_HEIGHT);
         g2.setColor(Color.BLACK);
         g2.drawString("Play", playButton.x, playButton.y+40);
         g2.drawString("Quit", quitButton.x, quitButton.y+40);
@@ -74,8 +72,9 @@ public class Menu implements MouseListener {
     public void setPoint(Point pointPlayer1){
         this.pointPlayer1=pointPlayer1;
     }
+
     public void setDisplayGame(DisplayGame dg){
-        displayGame=dg;
+        displayGame = dg;
     }
     public void player1Won(Graphics2D g2){
         g2.setColor(Color.GREEN);
