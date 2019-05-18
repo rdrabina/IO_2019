@@ -3,31 +3,37 @@ package client;
 import java.io.*;
 import java.net.Socket;
 //import com.jsoniter;
+import com.jsoniter.*;
 
 public class GameClient extends Thread{
-    private final String address = "localhost";
+    private final String address = "192.168.43.45";
     private final int port = 9999;
 
     private Socket socket;
     OutputStreamWriter  outputStream;
-    BufferedReader inputStream;
+    DataInputStream inputStream;
 
 
     @Override
     public void run() {
         try {
-            System.out.println("ready to conn");
+            System.out.println("Game client started");
             socket = new Socket(address, port);
             outputStream = new OutputStreamWriter(socket.getOutputStream());
-            inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            inputStream = new DataInputStream(socket.getInputStream());
 
-            System.out.println("conn");
+            System.out.println("Connected to the server");
             outputStream.write("{\"aa\":34}");
             outputStream.flush();
-            String msg;
-            while ((msg = inputStream.readLine()) != null) {
+            byte[] buff = new byte[1024];
+            while (inputStream.read(buff) != 0) {
 //                JsonIterator.deserialize(msg, int[].class);
-                System.out.println(msg);
+                Jsoniter json = Jsoniter.parse(buff);
+//                JsonSt
+                System.out.println(json.currentBuffer());
+                Thread.sleep(1000);
+                outputStream.write("{\"aa\":34}");
+                outputStream.flush();
             }
         }
         catch (Exception e) {
