@@ -6,8 +6,8 @@ public class Constants {
 
     public static final String TITLE = "Agar.io 2019";
     public static final String FONT = "Arial";
-    public static final int WINDOW_WIDTH;
-    public static final int WINDOW_HEIGHT;
+    public static int WINDOW_WIDTH;
+    public static int WINDOW_HEIGHT;
     public static final int MAP_WIDTH = 4000;
     public static final int MAP_HEIGHT = 3000;
     public static final int BUTTON_WIDTH = 100;

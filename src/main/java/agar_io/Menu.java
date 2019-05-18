@@ -130,9 +130,9 @@ public class Menu implements MouseListener {
     private void handleClick(int xMouse, int yMouse) {
         if (resolvePlayClick(xMouse, yMouse)) {
 //                    if(args.length == 0){
-            Server server = new Server(displayGame);
-            Thread thread = new Thread(server);
-            thread.start();
+//            Server server = new Server(displayGame);
+//            Thread thread = new Thread(server);
+//            thread.start();
 //                    }
 //                    else{
 //                        Client client = new Client(args[0] ,displayGame);
