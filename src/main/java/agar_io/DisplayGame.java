@@ -18,6 +18,8 @@ import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
+import static constant.Constants.*;
+
 public class DisplayGame extends JPanel implements ActionListener {
     private Rectangle outerArea;
     public static int WIDTH=Constants.WINDOW_WIDTH;
@@ -36,8 +38,8 @@ public class DisplayGame extends JPanel implements ActionListener {
 
     public DisplayGame() throws IOException {
         Timer timer=new Timer(30,this);
-        menu= new Menu(this);
-        time=System.nanoTime();
+        menu = new Menu(this);
+        time = System.nanoTime();
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
@@ -149,20 +151,28 @@ public class DisplayGame extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (state==GameState.GAME) {
+        if(state==GameState.GAME){
+
             Point mousePosition=getMousePosition();
             if(mousePosition==null)return;
+
             double dx = mousePosition.x - player1.getPlayer().x - player1.getPlayer().width/2;
             double dy = mousePosition.y - player1.getPlayer().y - player1.getPlayer().height/2;
 
             if(dx*dx+dy*dy >12){
+
                 double angle=Math.atan2(dy, dx);
-                if(mousePosition.getX()<player1.getPlayer().getBounds().getMinX()||mousePosition.getX()>player1.getPlayer().getBounds().getMaxX()||mousePosition.getY()<
-                        player1.getPlayer().getBounds().getMinY()||mousePosition.getY()>player1.getPlayer().getBounds().getMaxY()){
-                    player1.getPlayer().x+=(int)(player1.getVelocity()*Math.cos(angle));
-                    player1.getPlayer().y+=(int)(player1.getVelocity()*Math.sin(angle));
-                    Point view = new Point((int)player1.getPlayer().x-WIDTH/2,(int)player1.getPlayer().y-HEIGHT/2);
+
+                if(mousePosition.getX()<player1.getPlayer().getBounds().getMinX()||
+                        mousePosition.getX()>player1.getPlayer().getBounds().getMaxX()||
+                        mousePosition.getY()<player1.getPlayer().getBounds().getMinY()||
+                        mousePosition.getY()>player1.getPlayer().getBounds().getMaxY()){
+
+                    player1.getPlayer().x += (int)(player1.getVelocity()*Math.cos(angle));
+                    player1.getPlayer().y += (int)(player1.getVelocity()*Math.sin(angle));
+                    Point view = new Point((int)player1.getPlayer().x-currentWidth/2,(int)player1.getPlayer().y-currentHeight/2);
                     vPort.setViewPosition(view);
+
                 }
             }
             repaint();

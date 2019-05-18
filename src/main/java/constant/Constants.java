@@ -17,6 +17,9 @@ public class Constants {
     public static final int SPACE_BETWEEN_BUTTONS_HEIGHT = 100;
     public static final int ELEMENT_OFFSET = 100;
     public static final int TITLE_HEIGHT = 200;
+    
+    public static int currentWidth = 2000;
+    public static int currentHeight = 1600;
 
     static {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
