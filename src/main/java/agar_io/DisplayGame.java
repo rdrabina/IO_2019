@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import static constant.Constants.*;
+
 public class DisplayGame extends JPanel implements ActionListener{
     private Rectangle outerArea;
     public static int WIDTH=840;
@@ -141,19 +143,27 @@ public class DisplayGame extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(state==STATE.GAME){
+
             Point mousePosition=getMousePosition();
             if(mousePosition==null)return;
+
             double dx = mousePosition.x - player1.getPlayer().x - player1.getPlayer().width/2;
             double dy = mousePosition.y - player1.getPlayer().y - player1.getPlayer().height/2;
 
             if(dx*dx+dy*dy >12){
+
                 double angle=Math.atan2(dy, dx);
-                if(mousePosition.getX()<player1.getPlayer().getBounds().getMinX()||mousePosition.getX()>player1.getPlayer().getBounds().getMaxX()||mousePosition.getY()<
-                        player1.getPlayer().getBounds().getMinY()||mousePosition.getY()>player1.getPlayer().getBounds().getMaxY()){
+
+                if(mousePosition.getX()<player1.getPlayer().getBounds().getMinX()||
+                        mousePosition.getX()>player1.getPlayer().getBounds().getMaxX()||
+                        mousePosition.getY()<player1.getPlayer().getBounds().getMinY()||
+                        mousePosition.getY()>player1.getPlayer().getBounds().getMaxY()){
+
                     player1.getPlayer().x+=(int)(player1.getVelocity()*Math.cos(angle));
                     player1.getPlayer().y+=(int)(player1.getVelocity()*Math.sin(angle));
-                    Point view = new Point((int)player1.getPlayer().x-WIDTH/2,(int)player1.getPlayer().y-HEIGHT/2);
+                    Point view = new Point((int)player1.getPlayer().x-currentWidth/2,(int)player1.getPlayer().y-currentHeight/2);
                     vPort.setViewPosition(view);
+
                 }
             }
             repaint();
