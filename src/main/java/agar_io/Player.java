@@ -8,12 +8,12 @@ import java.util.Random;
 
 import static constant.Constants.*;
 
-public class Players implements Serializable {
+public class Player implements Serializable {
     private Ellipse2D.Double Player;
     private Color playerColor;
     private double velocity=5;
     Random random;
-    Players(){
+    Player(){
         random= new Random();
         Player=new Ellipse2D.Double(currentWidth/2, currentHeight/2, 25, 25);
         playerColor= new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255));

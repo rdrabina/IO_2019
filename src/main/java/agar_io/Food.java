@@ -6,17 +6,17 @@ import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
 import java.util.Random;
 
-public class Foods implements Serializable {
+public class Food implements Serializable {
     private Ellipse2D.Double foods[];
     private Color foodColors[];
 
-    Foods(int numoffoods){
+    Food(int numoffoods){
         foods= new Ellipse2D.Double[numoffoods];
         foodColors= new Color[numoffoods];
         callOnce();
     }
 
-    Foods(Foods foods, int numoffoods){
+    Food(Food foods, int numoffoods){
         this.foods = foods.getFoods();
         this.foodColors = foods.getFoodColors();
         callMore();
