@@ -10,9 +10,7 @@ import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.Semaphore;
 
-import static constant.Constants.CURRENT_HEIGHT;
-import static constant.Constants.CURRENT_WIDTH;
-import static constant.Constants.TITLE;
+import static constant.Constants.*;
 
 public class DisplayGame {
     private static JFrame frame;
@@ -33,7 +31,7 @@ public class DisplayGame {
         pane.setViewport(vport);
         vport.add(panel);
         frame.add(pane);
-        frame.setSize(CURRENT_WIDTH, CURRENT_HEIGHT);
+        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         panel.setvPort(vport);
         pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
