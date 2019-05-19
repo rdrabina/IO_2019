@@ -1,5 +1,5 @@
 package game;
 
 public enum GameState {
-    MENU, LOGIN, GAME, WIN, LOSE;
+    MENU, GAME, WIN, LOSE;
 }

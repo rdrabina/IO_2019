@@ -3,14 +3,14 @@ package agar_io;
 import constant.Constants;
 
 public class Position {
-    final int x;
-    final int y;
+    public final double x;
+    public final double y;
     private final int ordinal;
 
-    public Position(int x, int y) {
+    public Position(double x, double y) {
         this.x = x;
         this.y = y;
-        ordinal = x + Constants.WINDOW_WIDTH * y;
+        ordinal = (int) x + Constants.WINDOW_WIDTH * (int) y;
     }
 
     @Override

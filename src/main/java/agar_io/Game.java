@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
@@ -26,15 +27,15 @@ public class Game extends JPanel implements ActionListener {
     private Player player;
     private JViewport vPort;
     private Food food;
-    private long time;
+    private long gameTime;
     public Menu menu;
-    private Point pointplayer;
+    private Position pointplayer;
     public static GameState state = GameState.MENU;
 
     public Game() {
         Timer timer=new Timer(20,this);
         menu = new Menu(this);
-        time = System.nanoTime();
+        gameTime = System.nanoTime();
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
@@ -74,10 +75,16 @@ public class Game extends JPanel implements ActionListener {
     private void displayGame(Graphics2D g2) {
         food.draw(g2);
         player.drawPlayer(g2);
-        pointplayer= new Point((int)(player.getX()),(int)(player.getY()));
-        menu.setPoint(pointplayer);
-        Ball.printInfoBall(g2, player, time);
+        pointplayer= player.getPlayerPosition();
+        menu.setPlayerPosition(pointplayer);
+        printInfoBall(g2, player);
         g2.dispose();
+    }
+
+    private void printInfoBall(Graphics2D g2, Player player) {
+        Optional<Player.Ball> firstExistingBall = player.getFirstExistingBall();
+        Position playerPosition = player.getPlayerPosition();
+        firstExistingBall.ifPresent(ball -> ball.printInfoBall(g2, gameTime));
     }
 
 

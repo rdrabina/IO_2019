@@ -5,8 +5,12 @@ import constant.Constants;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
-import java.util.Random;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 import static constant.Constants.*;
 
@@ -14,18 +18,41 @@ public class Player implements Serializable {
 
     private Ellipse2D.Double player;
     private Color playerColor;
+    private List<Ball> ballList = new ArrayList<>();
 
     private double velocity;
-    private int size;
 
     public Player(Position position, int size, int velocity){
-
-        setSize(size);
-        player=new Ellipse2D.Double(position.x, position.y, 25, 25);
+        ballList.add(new Ball(size));
+        player = new Ellipse2D.Double(position.x, position.y, 25, 25);
         this.velocity = velocity;
 
         ThreadLocalRandom current = ThreadLocalRandom.current();
-        playerColor= new Color(current.nextInt(255), current.nextInt(255), current.nextInt(255));
+        playerColor = new Color(current.nextInt(255), current.nextInt(255), current.nextInt(255));
+    }
+
+    public class Ball {
+        private int size;
+
+        Ball(int size) {
+            setPlayerSize(size);
+        }
+
+        private void setPlayerSize(int size) {
+            this.size = size;
+            player.width = SIZE_CHANGE * (size - 5) + 25;
+            player.height = SIZE_CHANGE * (size - 5) + 25;
+        }
+
+        public void printInfoBall(Graphics2D g2, long time) {
+            g2.setColor(Color.ORANGE);
+            double a= TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+            Font font= new Font(Constants.FONT,Font.BOLD,15);
+            g2.setFont(font);
+            g2.drawString("SPEED: " + new DecimalFormat("##.##").format(getVelocity()),(int)(getX() - 350), (int)(getY()-300));
+            g2.drawString("RADIUS OF BALL: "+ Math.floor(player.height),(int)(getX()-350), (int)(getY() - 280));
+            g2.drawString("TIME: "+a, (int)(getX()-350), (int)(getY() - 260));
+        }
     }
 
     public void drawPlayer(Graphics2D g2){
@@ -68,11 +95,15 @@ public class Player implements Serializable {
         return velocity;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-        player.width = player.height = SIZE_CHANGE * (size - 5) + 25;
-    }
     public void setVelocity(double velocity) {
         this.velocity = velocity;
+    }
+
+    public Optional<Player.Ball> getFirstExistingBall() {
+        return Optional.of(ballList.get(0));
+    }
+
+    public Position getPlayerPosition() {
+        return new Position(player.x, player.y);
     }
 }
