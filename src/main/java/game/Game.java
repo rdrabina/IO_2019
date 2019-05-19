@@ -2,6 +2,7 @@ package game;
 
 import client.GameClient;
 import client.ServerAccesor;
+import leaderboard.Leaderboard;
 import map.contents.Building;
 import map.contents.Food;
 import menu.Menu;
@@ -88,6 +89,7 @@ public class Game extends JPanel implements ActionListener {
         pointplayer= player.getPlayerPosition();
         menu.setPlayerPosition(pointplayer);
         printInfoBall(g2, player);
+        Leaderboard.printLeaderboard(g2, players, player);
         g2.dispose();
     }
 
