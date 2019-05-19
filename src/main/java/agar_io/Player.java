@@ -16,16 +16,16 @@ import static constant.Constants.*;
 
 public class Player implements Serializable {
 
-    private Ellipse2D.Double player;
     private Color playerColor;
     private List<Ball> ballList = new ArrayList<>();
 
+    private double angle;
     private double velocity;
 
-    public Player(Position position, int size, int velocity){
-        ballList.add(new Ball(size));
-        player = new Ellipse2D.Double(position.x, position.y, 25, 25);
+    public Player(Position position, int size, int velocity, double angle){
+        ballList.add(new Ball(size, position));
         this.velocity = velocity;
+        this.angle = angle;
 
         ThreadLocalRandom current = ThreadLocalRandom.current();
         playerColor = new Color(current.nextInt(255), current.nextInt(255), current.nextInt(255));
@@ -33,15 +33,17 @@ public class Player implements Serializable {
 
     public class Ball {
         private int size;
+        private Ellipse2D.Double sprite;
 
-        Ball(int size) {
-            setPlayerSize(size);
+        Ball(int size, Position pos) {
+            sprite = new Ellipse2D.Double(pos.x, pos.y, 25, 25);
+            setSize(size);
         }
 
-        private void setPlayerSize(int size) {
+        private void setSize(int size) {
             this.size = size;
-//            player.width = SIZE_CHANGE * (size - 5) + 25;
-//            player.height = SIZE_CHANGE * (size - 5) + 25;
+            sprite.width = SIZE_CHANGE * (size - 5) + 25;
+            sprite.height = sprite.width;
         }
 
         public void printInfoBall(Graphics2D g2, long time) {
@@ -50,46 +52,55 @@ public class Player implements Serializable {
             Font font= new Font(Constants.FONT,Font.BOLD,15);
             g2.setFont(font);
             g2.drawString("SPEED: " + new DecimalFormat("##.##").format(getVelocity()),(int)(getX() - 350), (int)(getY()-300));
-            g2.drawString("RADIUS OF BALL: "+ Math.floor(player.height),(int)(getX()-350), (int)(getY() - 280));
+            g2.drawString("RADIUS OF BALL: "+ Math.floor(sprite.height),(int)(getX()-350), (int)(getY() - 280));
             g2.drawString("TIME: "+a, (int)(getX()-350), (int)(getY() - 260));
         }
     }
 
+        public void draw(Graphics2D g2) {
+            g2.setColor(playerColor);
+            g2.fill(sprite);
+        }
+
+        public double getX(){
+            return sprite.x;
+        }
+        public double getY(){
+            return sprite.y;
+        }
+
+        public Ellipse2D.Double getSprite() {
+            return sprite;
+        }
+    }
+
     public void drawPlayer(Graphics2D g2){
-        g2.setColor(playerColor);
-        g2.fill(player);
+        ballList.forEach(b -> b.draw(g2));
     }
 
     public boolean isMouseOutsideOfPlayerCircle(Point mousePosition) {
-        double x = getX();
-        double y = getY();
+        double x = getFirstExistingBall().get().getX();
+        double y = getFirstExistingBall().get().getY();
         return mousePosition.getX() < x || mousePosition.getX() > x
                 || mousePosition.getY() < y || mousePosition.getY() > y;
     }
 
     public boolean canPlayerMoveX(double dx) {
-        double x = player.getX();
+        double x = getFirstExistingBall().get().getX();
         return (x <= Constants.WINDOW_WIDTH / 2 && dx > 0)
                 || (x >= Constants.WINDOW_WIDTH / 2 && x < Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2)
                 || (x >= Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2 && dx < 0);
     }
 
     public boolean canPlayerMoveY(double dy) {
-        double y = getY();
+        double y = getFirstExistingBall().get().getY();
         return (y <= Constants.ACTIVE_HEIGHT_START && dy > 0)
                 || (y >= Constants.ACTIVE_HEIGHT_START && y < Constants.ACTIVE_HEIGHT_STOP)
                 || (y >= Constants.ACTIVE_HEIGHT_STOP && dy < 0);
     }
 
     public Ellipse2D.Double getPlayer() {
-        return player;
-    }
-
-    public double getX(){
-        return player.x;
-    }
-    public double getY(){
-        return player.y;
+        return getFirstExistingBall().get().getSprite();
     }
     public double getVelocity() {
         return velocity;
@@ -104,6 +115,14 @@ public class Player implements Serializable {
     }
 
     public Position getPlayerPosition() {
-        return new Position(player.x, player.y);
+        return new Position(getFirstExistingBall().get().getX(), getFirstExistingBall().get().getY());
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 }
