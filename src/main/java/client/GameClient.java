@@ -2,11 +2,10 @@ package client;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import game.Game;
+import player.Player;
 import player.PlayerIdentification;
 import com.jsoniter.*;
 
@@ -18,37 +17,32 @@ public class GameClient extends Thread{
 
     private final String serverAdd;
     private final int serverPort;
-    private String login;
-    private String faculty;
+    private final String login;
+    private final String faculty;
+    private final ServerAccesor accesor;
 
     private Game game;
 
-    public GameClient(String addres, int port, PlayerIdentification ind, Game game) {
+    public GameClient(String addres, int port, PlayerIdentification ind, Game game, ServerAccesor accesor) {
         this.serverAdd = addres;
         this.serverPort = port;
         this.login = ind.getNick();
         this.faculty = ind.getFaculty();
         this.game = game;
+        this.accesor = accesor;
     }
 
     @Override
     public void run() {
-//        try {
-//            System.out.println("Game client started");
-//            initConnection();
-//            login();
-//            listenServer();
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        String a = "{\"players\": {\"login23\": {\"coordinates\": [5, 5], \"weight\": 3, \"login\": \"login23\", \"department\": \"s\", \"image\": \"s\", \"velocity\": 0, \"direction\": [0, 0]}}, \"plankton\": []}";
-
-            GameData gameData = JsonIterator.deserialize(a, GameData.class);
-            for (PlayerData pd: gameData.players.values())
-                System.out.println(pd.coordinates + " " + pd.wieght + " " + pd.login);
-            for (PlanktonData pn: gameData.plankton)
-                System.out.println(pn.x + " " + pn.y);
+        try {
+            System.out.println("Game client started");
+            initConnection();
+            login();
+            listenServer();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initConnection() throws IOException{
@@ -66,45 +60,68 @@ public class GameClient extends Thread{
                 "}";
         outputStream.write(loginJson);
         outputStream.flush();
+
+        accesor.setStreams(inputStream, outputStream);
     }
 
     private void listenServer() throws IOException{
         while (true) {
-            byte[] msg = recv();
-            System.out.println(new String(msg));
+            byte[] msg = accesor.recv();
+            String m = new String(msg).replace("'", "\"");
+            System.out.println(m);
 
-//            GameData gameData = JsonIterator.deserialize(msg, GameData.class);
+            GameData gameData = JsonIterator.deserialize(msg, GameData.class);
 //            updateModel(gameData);
-//            for (PlayerData pd: gameData.play)
-//                System.out.println(pd.id + " " + pd.x + " " + pd.y);
-//            for (PlanktonData pn: gameData.plan)
-//                System.out.println(pn.x + " " + pn.y);
         }
     }
 
-    private byte[] recv() throws IOException {
-        byte[] buff = new byte[1024];
-        int count = inputStream.read(buff);
-        return Arrays.copyOfRange(buff, 0, count);
-    }
+//    private void updateModel(GameData data) {
 
-    private void updateModel(GameData data) {
+//    }
 
+    public static void updateServer(ServerAccesor accesor, Player player) {
+        String serverUpdate = "{" +
+                    "coordinates: [" +  player.getFirstExistingBall().get().getX() + ", " +
+                                        player.getFirstExistingBall().get().getY() + "]," +
+                    "direction: " + player.getAngle() +
+                "}";
+        try {
+            accesor.send(serverUpdate);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
-class PlayerData {
+class AddPlanktonData {
     public List<Integer> coordinates;
-    public int wieght;
+    public Integer weight;
+}
+class RemovePlanktonData {
+    public List<Integer> coordinates;
+}
+class AddPlayerData {
     public String login;
-    public String department;
-    public String image;
-    public int velocity;
+    public List<Integer> coordinates;
+    public Integer size;
+    public Double angle;
+    public Integer velocity;
 }
-class PlanktonData {
-    public int x;
-    public int y;
+class RemovePlayerData {
+    public String login;
 }
+class UpdatePlayerData {
+    public String login;
+    public List<Integer> coordinates;
+    public Integer size;
+    public Double angle;
+    public Integer velocity;
+}
+
 class GameData {
-    public Map<String, PlayerData> players;
-    public List<PlanktonData> plankton;
+    public List<AddPlanktonData> addPlanktonData;
+    public List<RemovePlanktonData> removePlanktonData;
+    public List<AddPlayerData> addPlayerData;
+    public List<RemovePlayerData> removePlayerData;
+    public List<UpdatePlayerData> updatePlayerData;
 }
