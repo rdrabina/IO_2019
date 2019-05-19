@@ -1,6 +1,5 @@
 package game;
 
-import client.ServerAccesor;
 import helpers.FormResize;
 import client.GameClient;
 import player.PlayerIdentification;
@@ -8,7 +7,6 @@ import player.PlayerIdentification;
 import javax.swing.*;
 
 import java.awt.event.WindowEvent;
-import java.util.concurrent.Semaphore;
 
 import static constant.Constants.*;
 
@@ -20,12 +18,10 @@ public class DisplayGame {
         JScrollPane pane= new JScrollPane();
         JViewport vport= new JViewport();
 
-        ServerAccesor accesor = new ServerAccesor();
+        Game panel= new Game();
 
-        Game panel= new Game(accesor);
-
-        GameClient client = new GameClient("localhost", 9998, ind, panel, accesor);
-        client.run();
+        GameClient client = new GameClient("localhost", 9998, ind, panel);
+        client.start();
 
         frame.setVisible(true);
         pane.setViewport(vport);

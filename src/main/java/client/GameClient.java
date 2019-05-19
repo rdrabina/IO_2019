@@ -2,6 +2,7 @@ package client;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
 
 import game.Game;
@@ -19,17 +20,15 @@ public class GameClient extends Thread{
     private final int serverPort;
     private final String login;
     private final String faculty;
-    private final ServerAccesor accesor;
 
     private Game game;
 
-    public GameClient(String addres, int port, PlayerIdentification ind, Game game, ServerAccesor accesor) {
+    public GameClient(String addres, int port, PlayerIdentification ind, Game game) {
         this.serverAdd = addres;
         this.serverPort = port;
         this.login = ind.getNick();
         this.faculty = ind.getFaculty();
         this.game = game;
-        this.accesor = accesor;
     }
 
     @Override
@@ -60,37 +59,48 @@ public class GameClient extends Thread{
                 "}";
         outputStream.write(loginJson);
         outputStream.flush();
-
-        accesor.setStreams(inputStream, outputStream);
     }
 
     private void listenServer() throws IOException{
         while (true) {
-            byte[] msg = accesor.recv();
+            byte[] msg = recv();
             String m = new String(msg).replace("'", "\"");
             System.out.println(m);
 
-            GameData gameData = JsonIterator.deserialize(msg, GameData.class);
-//            updateModel(gameData);
+            GameData gameData = JsonIterator.deserialize(m, GameData.class);
+            updateServer(game.getPlayer());
         }
     }
 
-//    private void updateModel(GameData data) {
-
-//    }
-
-    public static void updateServer(ServerAccesor accesor, Player player) {
+    private void updateServer(Player player) {
         String serverUpdate = "{" +
-                    "coordinates: [" +  player.getFirstExistingBall().get().getX() + ", " +
+                    "'update': [] , " +
+                    "'coordinates': [" +  player.getFirstExistingBall().get().getX() + ", " +
                                         player.getFirstExistingBall().get().getY() + "]," +
-                    "direction: " + player.getAngle() +
+                    "'direction': " + player.getAngle() +
                 "}";
         try {
-            accesor.send(serverUpdate);
+            send(serverUpdate);
         } catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    private byte[] recv() throws IOException {
+        byte[] buff = new byte[1024];
+        int count;
+        if (inputStream != null)
+        {
+            count = inputStream.read(buff);
+            buff = Arrays.copyOfRange(buff, 0, count);
+        }
+        return buff;
+    }
+
+    private void send(String msg) throws IOException {
+        outputStream.write(msg);
+        outputStream.flush();
     }
 }
 class AddPlanktonData {
