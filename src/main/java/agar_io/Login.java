@@ -83,7 +83,7 @@ public class Login extends JFrame implements ActionListener{
         if (isIdentificationValid(playerIdentification)) {
             setLabelVisible(errorLabel, false);
             this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            DisplayGame.displayGame();
+            DisplayGame.displayGame(playerIdentification);
         } else {
             setLabelVisible(errorLabel, true);
         }

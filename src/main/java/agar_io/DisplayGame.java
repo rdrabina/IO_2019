@@ -1,5 +1,7 @@
 package agar_io;
 
+import client.GameClient;
+
 import javax.swing.*;
 
 import java.awt.event.WindowEvent;
@@ -11,11 +13,14 @@ import static constant.Constants.TITLE;
 public class DisplayGame {
     private static JFrame frame;
 
-    public static void displayGame() {
+    public static void displayGame(PlayerIdentification ind) {
+        JFrame frame= new FormResize(TITLE);
         frame= new FormResize(TITLE);
         JScrollPane pane= new JScrollPane();
         JViewport vport= new JViewport();
         Game panel= new Game();
+        GameClient client = new GameClient("localhost", 9998, ind, panel);
+        client.run();
 
         frame.setVisible(true);
         pane.setViewport(vport);
