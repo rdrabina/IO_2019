@@ -76,11 +76,7 @@ public class GameClient extends Thread{
             GameData gameData = JsonIterator.deserialize(msg, GameData.class);
             CommandFactory commandFactory = new CommandFactory(gameData, invoker);
 
-            commandFactory.getAddPlanktonCommands();
-            commandFactory.getRemovePlanktonCommands();
-            commandFactory.getAddPlayerCommands();
-            commandFactory.getRemovePlayerCommands();
-
+            commandFactory.generateCommandsFromGameData();
             invoker = commandFactory.getInvoker();
             invoker.executeCommands(game);
         }

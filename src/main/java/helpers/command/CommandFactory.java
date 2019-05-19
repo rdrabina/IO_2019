@@ -12,7 +12,16 @@ public class CommandFactory {
         this.invoker = invoker;
     }
 
-    public void getAddPlanktonCommands()
+    public void generateCommandsFromGameData()
+    {
+        generateAddPlanktonCommands();
+        generateRemovePlanktonCommands();
+        generateAddPlayerCommands();
+        generateRemovePlayerCommands();
+        generateUpdatePlayerCommands();
+    }
+
+    private void generateAddPlanktonCommands()
     {
         for(AddPlanktonData planktonData: gameData.addPlanktonData)
         {
@@ -24,7 +33,7 @@ public class CommandFactory {
         }
     }
 
-    public void getRemovePlanktonCommands()
+    private void generateRemovePlanktonCommands()
     {
         for(RemovePlanktonData removePlankton: gameData.removePlanktonData)
         {
@@ -37,7 +46,7 @@ public class CommandFactory {
     }
 
 
-    public void getAddPlayerCommands()
+    private void generateAddPlayerCommands()
     {
         for(AddPlayerData addPlayerData: gameData.addPlayerData)
         {
@@ -46,12 +55,21 @@ public class CommandFactory {
         }
     }
 
-    public void getRemovePlayerCommands()
+    private void generateRemovePlayerCommands()
     {
         for(RemovePlayerData removePlayerData: gameData.removePlayerData)
         {
             RemovePlayerCommand removePlayerCommand = new RemovePlayerCommand(removePlayerData.login);
             this.invoker.addCommand(removePlayerCommand);
+        }
+    }
+
+    private void generateUpdatePlayerCommands()
+    {
+        for(UpdatePlayerData updatePlayerData: gameData.updatePlayerData)
+        {
+            UpdatePlayerDataCommand updatePlayerDataCommand = new UpdatePlayerDataCommand(updatePlayerData);
+            this.invoker.addCommand(updatePlayerDataCommand);
         }
     }
 

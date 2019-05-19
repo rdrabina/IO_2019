@@ -1,7 +1,5 @@
 package helpers.command;
-
 import game.Game;
-
 
 public class AddPlayerCommand implements Command {
 
@@ -14,6 +12,6 @@ public class AddPlayerCommand implements Command {
     @Override
     public void execute(Game game)
     {
-        //TODO update player
+        //TODO add player
     }
 }
