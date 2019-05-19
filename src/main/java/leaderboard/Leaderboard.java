@@ -46,7 +46,7 @@ public class Leaderboard {
         g2.setColor(Color.BLUE);
         Font font= new Font(FONT, Font.BOLD,25);
         g2.setFont(font);
-        AtomicInteger atomicInteger = new AtomicInteger(- Constants.ACTIVE_HEIGHT_START + 50);
+        AtomicInteger atomicInteger = new AtomicInteger(- Constants.ACTIVE_HEIGHT_START + 100);
         g2.drawString("LEADERBOARD: ", (int) (player.getPlayer().x + Constants.ACTIVE_WIDTH_START - 300),
                 (int) (player.getPlayer().y + atomicInteger.getAndAdd(50)));
         List<MapHelper> mapHelpers = players.entrySet().stream()
