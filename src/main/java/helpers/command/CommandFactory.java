@@ -13,7 +13,7 @@ public class CommandFactory {
         this.gameData = gameData;
     }
 
-    public List<AddPlanktonCommand> getPlanktonCommands()
+    public List<AddPlanktonCommand> getAddPlanktonCommands()
     {
         List<AddPlanktonCommand> addPlanktonCommands = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class CommandFactory {
         return addPlanktonCommands;
     }
 
-    public List<RemovePlanktonCommand> removePlanktonCommands()
+    public List<RemovePlanktonCommand> getRemovePlanktonCommands()
     {
         List<RemovePlanktonCommand> removePlanktonCommands = new ArrayList<>();
 
@@ -43,6 +43,18 @@ public class CommandFactory {
         return removePlanktonCommands;
     }
 
+
+    public List<AddPlayerCommand> getAddPlayerCommands()
+    {
+        List<AddPlayerCommand> addPlayerCommands = new ArrayList<>();
+
+        for(AddPlayerData addPlayerData: gameData.addPlayerData)
+        {
+            AddPlayerCommand addPlayerCommand = new AddPlayerCommand(addPlayerData);
+            addPlayerCommands.add(addPlayerCommand);
+        }
+        return addPlayerCommands;
+    }
 
 
 }

@@ -75,13 +75,17 @@ public class GameClient extends Thread{
 
             GameData gameData = JsonIterator.deserialize(msg, GameData.class);
             CommandFactory commandFactory = new CommandFactory(gameData);
-            List<AddPlanktonCommand> addPlanktonCommandCommandList = commandFactory.getPlanktonCommands();
-            List<RemovePlanktonCommand> removePlanktonCommandList = commandFactory.removePlanktonCommands();
+            List<AddPlanktonCommand> addPlanktonCommandCommandList = commandFactory.getAddPlanktonCommands();
+            List<RemovePlanktonCommand> removePlanktonCommandList = commandFactory.getRemovePlanktonCommands();
+            List<AddPlayerCommand> addPlayerCommandList = commandFactory.getAddPlayerCommands();
 
             for(AddPlanktonCommand command: addPlanktonCommandCommandList)
                 invoker.addCommand(command);
 
             for(RemovePlanktonCommand command: removePlanktonCommandList)
+                invoker.addCommand(command);
+
+            for(AddPlayerCommand command: addPlayerCommandList)
                 invoker.addCommand(command);
 
             invoker.executeCommands(game);

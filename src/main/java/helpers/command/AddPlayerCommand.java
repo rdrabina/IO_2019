@@ -5,13 +5,15 @@ import game.Game;
 
 public class AddPlayerCommand implements Command {
 
+    private AddPlayerData addPlayerData;
 
-    public AddPlayerCommand() {
+    public AddPlayerCommand(AddPlayerData addPlayerData) {
+        this.addPlayerData = addPlayerData;
     }
 
     @Override
     public void execute(Game game)
     {
-
+        //TODO update player
     }
 }
