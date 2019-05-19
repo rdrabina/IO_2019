@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
@@ -27,21 +28,22 @@ public class Game extends JPanel implements ActionListener {
     private Player player;
     private JViewport vPort;
     private Food food;
-    private long time;
+    private Building building;
+    private long gameTime;
     public Menu menu;
-    private Point pointplayer;
-    public static GameState state;
+    private Position pointplayer;
+    public static GameState state = GameState.MENU;
 
     public Game() {
-        state = MENU;
         Timer timer=new Timer(20,this);
         menu = new Menu(this);
-        time = System.nanoTime();
+        gameTime = System.nanoTime();
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
-        player= new Player();
-        food = new Food(Constants.MAX_FOOD_AMOUNT);
+        player= new Player(new Position(2, 2), 5, 5);
+        food = new Food();
+        building = new Building();
         Dimension newSize = new Dimension(MAP_WIDTH, MAP_HEIGHT);
         setPreferredSize(newSize);
         timer.start();
@@ -74,14 +76,19 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void displayGame(Graphics2D g2) {
-        food.drawFood(g2);
+        food.draw(g2);
+        building.drawBuildings(g2);
         player.drawPlayer(g2);
-        pointplayer= new Point((int)(player.getX()),(int)(player.getY()));
-        menu.setPoint(pointplayer);
-        Ball.didBallIntersect(food, player);
-        Ball.printInfoBall(g2, player, time);
-        WinResolver.whoWon();
+        pointplayer= player.getPlayerPosition();
+        menu.setPlayerPosition(pointplayer);
+        printInfoBall(g2, player);
         g2.dispose();
+    }
+
+    private void printInfoBall(Graphics2D g2, Player player) {
+        Optional<Player.Ball> firstExistingBall = player.getFirstExistingBall();
+        Position playerPosition = player.getPlayerPosition();
+        firstExistingBall.ifPresent(ball -> ball.printInfoBall(g2, gameTime));
     }
 
 

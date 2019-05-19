@@ -24,7 +24,7 @@ public class Menu implements MouseListener {
     private boolean enabled = true;
     private boolean lostDisplayed = false;
     private Game game;
-    private Point pointPlayer1;
+    private Position playerPosition;
     public String[] args;
 
     public Menu(Game game) {
@@ -70,8 +70,8 @@ public class Menu implements MouseListener {
         g2.drawString("Play", playButton.x, playButton.y+40);
         g2.drawString("Quit", quitButton.x, quitButton.y+40);
     }
-    public void setPoint(Point pointPlayer1){
-        this.pointPlayer1=pointPlayer1;
+    public void setPlayerPosition(Position playerPosition){
+        this.playerPosition = playerPosition;
     }
 
     public void setGame(Game dg){
@@ -82,7 +82,7 @@ public class Menu implements MouseListener {
         g2.setColor(Color.GREEN);
         Font font= new Font(FONT, Font.BOLD,50);
         g2.setFont(font);
-        g2.drawString("YOU WON", pointPlayer1.x-100, pointPlayer1.y);
+        g2.drawString("YOU WON", (int) playerPosition.x-100, (int) playerPosition.y);
     }
     public void displayLost(int score){
         if (lostDisplayed == false) {
