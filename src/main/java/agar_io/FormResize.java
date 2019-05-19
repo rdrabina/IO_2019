@@ -21,8 +21,8 @@ public class FormResize extends JFrame {
         getContentPane().addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 Component c = (Component)e.getSource();
-                currentWidth = c.getWidth();
-                currentHeight = c.getHeight();
+                CURRENT_WIDTH = c.getWidth();
+                CURRENT_HEIGHT = c.getHeight();
             }
         });
     }
