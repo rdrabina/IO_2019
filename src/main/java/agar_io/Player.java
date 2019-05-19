@@ -11,23 +11,26 @@ import java.util.concurrent.ThreadLocalRandom;
 import static constant.Constants.*;
 
 public class Player implements Serializable {
+
     private Ellipse2D.Double player;
     private Color playerColor;
-    private double velocity=5;
-    private int eatenFoodCounter;
-    Player(){
+
+    private double velocity;
+    private int size;
+
+    public Player(Position position, int size, int velocity){
+
+        setSize(size);
+        player=new Ellipse2D.Double(position.x, position.y, 25, 25);
+        this.velocity = velocity;
+
         ThreadLocalRandom current = ThreadLocalRandom.current();
-        player=new Ellipse2D.Double(MAP_WIDTH / 2, MAP_HEIGHT / 2, 25, 25);
         playerColor= new Color(current.nextInt(255), current.nextInt(255), current.nextInt(255));
     }
+
     public void drawPlayer(Graphics2D g2){
         g2.setColor(playerColor);
         g2.fill(player);
-    }
-    public void increaseSize(){
-        player.width += SIZE_CHANGE;
-        player.height += SIZE_CHANGE;
-        velocity -= VELOCITY_CHANGE;
     }
 
     public boolean isMouseOutsideOfPlayerCircle(Point mousePosition) {
@@ -54,17 +57,20 @@ public class Player implements Serializable {
     public Ellipse2D.Double getPlayer() {
         return player;
     }
+
     public double getX(){
         return player.x;
     }
     public double getY(){
         return player.y;
     }
-    public void setPlayer(Ellipse2D.Double player) {
-        player = player;
-    }
     public double getVelocity() {
         return velocity;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+        player.width = player.height = SIZE_CHANGE * (size - 5) + 25;
     }
     public void setVelocity(double velocity) {
         this.velocity = velocity;

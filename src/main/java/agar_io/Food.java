@@ -1,85 +1,43 @@
 package agar_io;
 
-import constant.Constants;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
-public class Food implements Serializable {
-    private Ellipse2D.Double foods[];
-    private Color foodColors[];
+public class Food {
 
-    Food(int numoffoods){
-        foods= new Ellipse2D.Double[numoffoods];
-        foodColors= new Color[numoffoods];
-        callOnce();
+    private Map<Position, Ellipse2D.Double> planktons = new HashMap<>();
+    private Color[] colors = new Color[100];
+
+    public Food()
+    {
+        Random rand = new Random();
+        for (int i = 0; i < 100; i++)
+            colors[i] = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
     }
 
-    Food(Food foods, int numoffoods){
-        this.foods = foods.getFoods();
-        this.foodColors = foods.getFoodColors();
-        callMore();
+    public Food(List<Position> positions)
+    {
+        this();
+        addFood(positions);
     }
 
-
-    public void callOnce(){
-        randomFoodColorInitializer();
-        initializeFoods();
+    public void addFood(List<Position> positions) {
+        positions.forEach(p -> planktons.put(p, new Ellipse2D.Double(p.x, p.y, 9.3, 9.3)));
     }
 
-    public void callMore(){
-        initializeFoods();
+    public void removeFood(List<Position> positions) {
+        positions.forEach(p -> planktons.remove(p));
     }
 
-
-    public void randomFoodColorInitializer(){
-        Random a=new Random();
-
-        for (int i = 0; i < foodColors.length; i++) {
-            foodColors[i]=new Color(a.nextInt(255),a.nextInt(255),a.nextInt(255));
-        }
-
-    }
-    public void drawFood(Graphics2D g2){
-
-        for (int i = 0; i < foods.length; i++) {
-            if(foods[i]!=null){
-                g2.setColor(foodColors[i]);
-                g2.fill(foods[i]);
-            }
-        }
-    }
-//    public void initializeFoods(){
-//        Random a=new Random();
-//        for (int i = 0; i < foods.length; i++) {
-//            foods[i]=new Ellipse2D.Double(a.nextInt(400), a.nextInt(300), 9.3, 9.3);
-//        }
-//    }
-
-    public void initializeFoods(){
-        for (int i = 0; i < foods.length; i++) {
-            if(foods[i] == null){
-                foods[i]= new Ellipse2D.Double(
-                        ThreadLocalRandom.current().nextInt(Constants.ACTIVE_WIDTH_START, Constants.ACTIVE_WIDTH_STOP),
-                        ThreadLocalRandom.current().nextInt(Constants.ACTIVE_HEIGHT_START, Constants.ACTIVE_HEIGHT_STOP), 10, 10);
-            }
-        }
-    }
-
-    public Ellipse2D.Double[] getFoods() {
-        return foods;
-    }
-    public void setFoods(Ellipse2D.Double[] foods) {
-        this.foods = foods;
-    }
-    public Color[] getFoodColors() {
-        return foodColors;
-    }
-    public void setFoodColors(Color[] foodColors) {
-        this.foodColors = foodColors;
+    public void draw(Graphics2D g2){
+        planktons.forEach((p, d) -> {
+            g2.setColor(colors[p.hashCode() % 100]);
+            g2.fill(d);
+        });
     }
 }

@@ -18,33 +18,4 @@ public class Ball {
         g2.drawString("RADIUS OF BALL: "+ Math.floor(player.getPlayer().height),(int)(player.getX()-350), (int)(player.getY()-280));
         g2.drawString("TIME: "+a, (int)(player.getX()-350),  (int)(player.getY()-260));
     }
-
-    public static void didBallIntersect(Food food, Player player){
-
-//        Thread thread = new Thread(){
-//            public void run(){
-//                try {
-//                    TimeUnit.SECONDS.sleep(2);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                food = new Food(food, numoffoods);
-//            }
-//        };
-
-//        Arrays.stream(food.getFoods())
-//                .filter(x -> shouldFoodBeFiltered())
-        for (int i = 0; i < food.getFoods().length; i++) {
-            if(food.getFoods()[i]!=null && player.getPlayer().getBounds().intersects(food.getFoods()[i].getBounds())){
-                food.getFoods()[i] = null;
-                player.increaseSize();
-//                eatenFoodCounter++;
-//                if (eatenFoodCounter > 0.2 * Constants.MAX_FOOD_AMOUNT){
-////                    thread.start();
-//                    food = new Food(food, Constants.MAX_FOOD_AMOUNT);
-//                }
-
-            }
-        }
-    }
 }

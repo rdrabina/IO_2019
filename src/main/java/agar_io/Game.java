@@ -38,8 +38,8 @@ public class Game extends JPanel implements ActionListener {
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
-        player= new Player();
-        food = new Food(Constants.MAX_FOOD_AMOUNT);
+        player= new Player(new Position(2, 2), 5, 5);
+        food = new Food();
         Dimension newSize = new Dimension(MAP_WIDTH, MAP_HEIGHT);
         setPreferredSize(newSize);
         timer.start();
@@ -72,13 +72,11 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void displayGame(Graphics2D g2) {
-        food.drawFood(g2);
+        food.draw(g2);
         player.drawPlayer(g2);
         pointplayer= new Point((int)(player.getX()),(int)(player.getY()));
         menu.setPoint(pointplayer);
-        Ball.didBallIntersect(food, player);
         Ball.printInfoBall(g2, player, time);
-        WinResolver.whoWon();
         g2.dispose();
     }
 
