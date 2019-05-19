@@ -5,8 +5,7 @@ import java.net.Socket;
 import java.util.*;
 
 import game.Game;
-import helpers.command.Command;
-import helpers.command.Invoker;
+import helpers.command.*;
 import player.Player;
 import player.PlayerIdentification;
 import com.jsoniter.*;
@@ -75,13 +74,10 @@ public class GameClient extends Thread{
             System.out.println(m);
 
             GameData gameData = JsonIterator.deserialize(msg, GameData.class);
-//            updateModel(gameData);
-            //TODO parse string to list of commands -> command factory
-            //TODO receive list of commands
-            //TODO for command in commands: invoker.storeCommand
-            ArrayList<Command> commandList = new ArrayList<>();
-            //TODO commandList = ...
-            for(Command command: commandList)
+            CommandFactory commandFactory = new CommandFactory(gameData);
+            List<AddPlankton> addPlanktonCommandList = commandFactory.getPlanktonCommands();
+
+            for(AddPlankton command: addPlanktonCommandList)
                 invoker.addCommand(command);
             invoker.executeCommands(game);
         }
@@ -109,36 +105,4 @@ public class GameClient extends Thread{
             e.printStackTrace();
         }
     }
-}
-class AddPlanktonData {
-    public List<Integer> coordinates;
-    public Integer weight;
-}
-class RemovePlanktonData {
-    public List<Integer> coordinates;
-}
-class AddPlayerData {
-    public String login;
-    public List<Integer> coordinates;
-    public Integer size;
-    public Double angle;
-    public Integer velocity;
-}
-class RemovePlayerData {
-    public String login;
-}
-class UpdatePlayerData {
-    public String login;
-    public List<Integer> coordinates;
-    public Integer size;
-    public Double angle;
-    public Integer velocity;
-}
-
-class GameData {
-    public List<AddPlanktonData> addPlanktonData;
-    public List<RemovePlanktonData> removePlanktonData;
-    public List<AddPlayerData> addPlayerData;
-    public List<RemovePlayerData> removePlayerData;
-    public List<UpdatePlayerData> updatePlayerData;
 }
