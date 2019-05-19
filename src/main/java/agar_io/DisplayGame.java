@@ -15,7 +15,6 @@ public class DisplayGame {
 
     public static void displayGame(PlayerIdentification ind) {
         JFrame frame= new FormResize(TITLE);
-        frame= new FormResize(TITLE);
         JScrollPane pane= new JScrollPane();
         JViewport vport= new JViewport();
         Game panel= new Game();
