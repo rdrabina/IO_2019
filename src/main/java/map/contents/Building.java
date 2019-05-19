@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 import helpers.ColorHelper;
 import helpers.JSONParser;
 import org.json.*;
+import player.Player;
 
 public class Building implements Serializable {
 
@@ -68,4 +69,30 @@ public class Building implements Serializable {
             buildings.add(i, new Rectangle2D.Double( startX, startY, endX-startX, endY-startY));
         });
     }
+
+    public boolean isBuildingOnPlayerXWay(Player player, Double dx) {
+        return IntStream.range(0, buildings.size())
+                .anyMatch(i -> isPlayerIntersectsWithBuildingAndTryingMoveOnIt_X(player, dx, i));
+    }
+
+    private boolean isPlayerIntersectsWithBuildingAndTryingMoveOnIt_X (Player player, Double dx, int i) {
+
+    return player.getPlayer().getBounds().intersects(buildings.get(i).getBounds())
+            && (buildings.get(i).x > player.getPlayer().x && dx > 0
+            || (buildings.get(i).x + buildings.get(i).width - player.getPlayer().width) < player.getPlayer().x && dx < 0);
+}
+
+    public boolean isBuildingOnPlayerYWay(Player player, Double dy) {
+        return IntStream.range(0, buildings.size())
+                .anyMatch(i -> isPlayerIntersectsWithBuildingAndTryingMoveOnIt_Y(player, dy, i));
+    }
+
+    private boolean isPlayerIntersectsWithBuildingAndTryingMoveOnIt_Y (Player player, Double dy, int i) {
+
+        return player.getPlayer().getBounds().intersects(buildings.get(i).getBounds())
+                && (buildings.get(i).y > player.getPlayer().y && dy > 0
+                || (buildings.get(i).y + buildings.get(i).height - player.getPlayer().height) < player.getPlayer().y && dy < 0);
+    }
+
+
 }
