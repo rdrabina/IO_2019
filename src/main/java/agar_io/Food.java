@@ -28,7 +28,11 @@ public class Food {
     }
 
     public void addFood(List<Position> positions) {
-        positions.forEach(p -> planktons.put(p, new Ellipse2D.Double(p.x, p.y, 9.3, 9.3)));
+        positions.forEach(this::addSingleFood);
+    }
+
+    public void addSingleFood(Position position) {
+        planktons.put(position, new Ellipse2D.Double(position.x, position.y, 9.3, 9.3));
     }
 
     public void removeFood(List<Position> positions) {
