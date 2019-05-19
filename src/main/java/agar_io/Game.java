@@ -130,12 +130,10 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void movePlayer(Player player) {
-        System.out.println("a");
         double dx = player.getVelocity()*Math.cos(player.getAngle());
         double dy = player.getVelocity()*Math.sin(player.getAngle());
 
         if (player.canPlayerMoveX(dx)) {
-            System.out.println("b");
             player.getPlayer().x += (int)(dx);
         }
         if (player.canPlayerMoveY(dy)) {

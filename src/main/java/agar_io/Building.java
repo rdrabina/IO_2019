@@ -1,60 +1,60 @@
 package agar_io;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
-import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.json.*;
 
 public class Building implements Serializable {
 
-    private Rectangle2D.Double[] buildings;
-    private String[] buildingsName;
-    private Color[] buildingsColors;
+    private List<Rectangle2D.Double> buildings;
+    private List<String> buildingsName;
+    private List<Color> buildingsColors;
     private JSONArray arrayBuildings;
 
 
     Building() {
         arrayBuildings = JSONParser.parse();
-        buildings = new Rectangle2D.Double[arrayBuildings.length()];
-        buildingsName = new String[arrayBuildings.length()];
-        buildingsColors = new Color[arrayBuildings.length()];
+        buildings = new ArrayList<>();
+        buildingsName = new ArrayList<>();
+        buildingsColors = new ArrayList<>();
         callOnce();
     }
 
 
     public void callOnce(){
-        randomBuildingsInitializer();
+        randomBuildingsColorInitializer();
         initializeBuildings();
     }
 
-    public void randomBuildingsInitializer(){
-        Random a=new Random();
-
-        for (int i = 0; i < buildingsColors.length; i++) {
-            buildingsColors[i]=new Color(a.nextInt(255),a.nextInt(255),a.nextInt(255));
-        }
+    public void randomBuildingsColorInitializer(){
+        buildingsColors = IntStream.range(0, arrayBuildings.length())
+                .mapToObj(i -> ColorHelper.getRandomColor())
+                .collect(Collectors.toList());
     }
 
     public void drawBuildings(Graphics2D g2){
-        for (int i = 0; i < buildings.length; i++) {
-                g2.setColor(buildingsColors[i]);
-                g2.fill(buildings[i]);
-                g2.setColor(Color.WHITE);
-                g2.drawString(buildingsName[i], (int)(buildings[i].x + buildings[i].width/2), (int) (buildings[i].y + buildings[i].height/2));
-        }
+        IntStream.range(0, buildings.size()).forEach(i -> {
+            g2.setColor(buildingsColors.get(i));
+            g2.fill(buildings.get(i));
+            g2.setColor(Color.WHITE);
+            g2.drawString(buildingsName.get(i), (int)(buildings.get(i).x + buildings.get(i).width/2),
+                    (int) (buildings.get(i).y + buildings.get(i).height/2));
+        });
     }
 
     public void initializeBuildings(){
-        JSONObject a;
-        int startX;
-        int startY;
-        int endX;
-        int endY;
-
-        for (int i = 0; i < buildings.length; i++) {
-
+        IntStream.range(0, arrayBuildings.length()).forEach(i -> {
+            JSONObject a;
+            int startX;
+            int startY;
+            int endX;
+            int endY;
             a = arrayBuildings.getJSONObject(i);
 
             startX = a.getInt("startX");
@@ -62,22 +62,8 @@ public class Building implements Serializable {
             endX = a.getInt("endX");
             endY = a.getInt("endY");
 
-            buildingsName[i] = a.getString("name");
-            buildings[i] = new Rectangle2D.Double( startX, startY, endX-startX, endY-startY);
-        }
-    }
-
-
-    public Rectangle2D.Double[] getBuildings() {
-        return buildings;
-    }
-    public void setBuildings(Rectangle2D.Double[] buildings) {
-        this.buildings = buildings;
-    }
-    public Color[] getBuildingsColors() {
-        return buildingsColors;
-    }
-    public void setBuildingsColors(Color[] buildingsColors) {
-        this.buildingsColors = buildingsColors;
+            buildingsName.add(i, a.getString("name"));
+            buildings.add(i, new Rectangle2D.Double( startX, startY, endX-startX, endY-startY));
+        });
     }
 }

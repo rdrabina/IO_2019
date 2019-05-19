@@ -4,20 +4,21 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.StringJoiner;
 
 public class JSONParser {
     private final static String JSON_PATH = "building.json";
 
     static JSONArray parse(){
-        StringBuilder sb;
+        StringJoiner sj;
         try {
             InputStream is = new FileInputStream(JSON_PATH);
             BufferedReader buf = new BufferedReader(new InputStreamReader(is));
             String line;
             line = buf.readLine();
-            sb = new StringBuilder();
+            sj = new StringJoiner("\n");
             while(line != null){
-                sb.append(line).append("\n");
+                sj.add(line);
                 line = buf.readLine();
             }
         } catch (IOException e) {
@@ -25,7 +26,7 @@ public class JSONParser {
             return null;
         }
 
-        String fileAsString = sb.toString();
+        String fileAsString = sj.toString();
 
         JSONObject obj = new JSONObject(fileAsString);
 

@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class Login extends JFrame implements ActionListener{

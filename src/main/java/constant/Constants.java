@@ -24,6 +24,7 @@ public class Constants {
     public static final int MAX_FOOD_AMOUNT = 500;
     public static final double SIZE_CHANGE = 0.5;
     public static final double VELOCITY_CHANGE = 0.1;
+    public static final int COLOR_AMOUNT = 100;
 
     public static int CURRENT_WIDTH = 2000;
     public static int CURRENT_HEIGHT = 1600;

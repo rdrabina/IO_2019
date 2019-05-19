@@ -1,6 +1,6 @@
 package agar_io;
 
-import constant.Constants;
+import static constant.Constants.*;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-
-import static constant.Constants.*;
 
 public class Player implements Serializable {
 
@@ -27,8 +25,7 @@ public class Player implements Serializable {
         this.velocity = velocity;
         this.angle = angle;
 
-        ThreadLocalRandom current = ThreadLocalRandom.current();
-        playerColor = new Color(current.nextInt(255), current.nextInt(255), current.nextInt(255));
+        playerColor = ColorHelper.getRandomColor();
     }
 
     public class Ball {
@@ -49,7 +46,7 @@ public class Player implements Serializable {
         public void printInfoBall(Graphics2D g2, long time) {
             g2.setColor(Color.ORANGE);
             double a= TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
-            Font font= new Font(Constants.FONT,Font.BOLD,15);
+            Font font= new Font(FONT,Font.BOLD,15);
             g2.setFont(font);
             g2.drawString("SPEED: " + new DecimalFormat("##.##").format(getVelocity()),(int)(getX() - 350), (int)(getY()-300));
             g2.drawString("RADIUS OF BALL: "+ Math.floor(sprite.height),(int)(getX()-350), (int)(getY() - 280));
@@ -86,16 +83,16 @@ public class Player implements Serializable {
 
     public boolean canPlayerMoveX(double dx) {
         double x = getFirstExistingBall().get().getX();
-        return (x <= Constants.WINDOW_WIDTH / 2 && dx > 0)
-                || (x >= Constants.WINDOW_WIDTH / 2 && x < Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2)
-                || (x >= Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2 && dx < 0);
+        return (x <= ACTIVE_WIDTH_START && dx > 0)
+                || (x >= ACTIVE_WIDTH_START && x < ACTIVE_WIDTH_STOP)
+                || (x >= ACTIVE_WIDTH_STOP && dx < 0);
     }
 
     public boolean canPlayerMoveY(double dy) {
         double y = getFirstExistingBall().get().getY();
-        return (y <= Constants.ACTIVE_HEIGHT_START && dy > 0)
-                || (y >= Constants.ACTIVE_HEIGHT_START && y < Constants.ACTIVE_HEIGHT_STOP)
-                || (y >= Constants.ACTIVE_HEIGHT_STOP && dy < 0);
+        return (y <= ACTIVE_HEIGHT_START && dy > 0)
+                || (y >= ACTIVE_HEIGHT_START && y < ACTIVE_HEIGHT_STOP)
+                || (y >= ACTIVE_HEIGHT_STOP && dy < 0);
     }
 
     public Ellipse2D.Double getPlayer() {
