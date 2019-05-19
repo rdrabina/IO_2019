@@ -8,7 +8,7 @@ import java.util.Map;
 
 import agar_io.Food;
 import agar_io.Player;
-import com.jsoniter.*;
+//import com.jsoniter.*;
 
 public class GameClient extends Thread{
     private final String address = "192.168.43.45";
