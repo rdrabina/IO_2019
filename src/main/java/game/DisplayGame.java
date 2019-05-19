@@ -1,10 +1,14 @@
-package agar_io;
+package game;
 
+import client.ServerAccesor;
+import helpers.FormResize;
 import client.GameClient;
+import player.PlayerIdentification;
 
 import javax.swing.*;
 
 import java.awt.event.WindowEvent;
+import java.util.concurrent.Semaphore;
 
 import static constant.Constants.CURRENT_HEIGHT;
 import static constant.Constants.CURRENT_WIDTH;
@@ -15,11 +19,14 @@ public class DisplayGame {
 
     public static void displayGame(PlayerIdentification ind) {
         JFrame frame= new FormResize(TITLE);
-        frame= new FormResize(TITLE);
         JScrollPane pane= new JScrollPane();
         JViewport vport= new JViewport();
-        Game panel= new Game();
-        GameClient client = new GameClient("localhost", 9998, ind, panel);
+
+        ServerAccesor accesor = new ServerAccesor();
+
+        Game panel= new Game(accesor);
+
+        GameClient client = new GameClient("localhost", 9998, ind, panel, accesor);
         client.run();
 
         frame.setVisible(true);

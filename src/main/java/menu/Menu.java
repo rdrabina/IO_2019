@@ -1,14 +1,16 @@
-package agar_io;
+package menu;
 
 import static constant.Constants.*;
 
 import constant.Constants;
+import game.DisplayGame;
+import game.Game;
 import game.GameState;
+import helpers.Position;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import javax.imageio.ImageIO;
 import java.awt.event.MouseEvent;

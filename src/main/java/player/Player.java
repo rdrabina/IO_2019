@@ -1,4 +1,7 @@
-package agar_io;
+package player;
+
+import helpers.ColorHelper;
+import helpers.Position;
 
 import static constant.Constants.*;
 
@@ -9,7 +12,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class Player implements Serializable {

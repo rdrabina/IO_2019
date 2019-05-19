@@ -1,4 +1,4 @@
-package agar_io;
+package helpers;
 
 import constant.Constants;
 

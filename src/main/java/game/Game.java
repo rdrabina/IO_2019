@@ -1,29 +1,27 @@
-package agar_io;
+package game;
 
-import constant.Constants;
-import game.GameState;
+import client.GameClient;
+import client.ServerAccesor;
+import map.contents.Building;
+import map.contents.Food;
+import menu.Menu;
+import helpers.Position;
+import player.Player;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
 import static constant.Constants.*;
-import static game.GameState.*;
 
 public class Game extends JPanel implements ActionListener {
     private JViewport vPort;
@@ -37,7 +35,11 @@ public class Game extends JPanel implements ActionListener {
     private final Player player;
     private final Food food = new Food();
 
-    public Game() {
+    private final ServerAccesor accesor;
+
+    public Game(ServerAccesor accesor) {
+        this.accesor = accesor;
+
         Timer timer=new Timer(20,this);
         menu = new Menu(this);
         gameTime = System.nanoTime();
@@ -122,6 +124,8 @@ public class Game extends JPanel implements ActionListener {
                 Point view = new Point((int)player.getPlayer().x-CURRENT_WIDTH/2,(int)player.getPlayer().y-CURRENT_HEIGHT/2);
                 vPort.setViewPosition(view);
             }
+
+            GameClient.updateServer(accesor, player);
         }
     }
 
@@ -134,14 +138,23 @@ public class Game extends JPanel implements ActionListener {
         double dy = player.getVelocity()*Math.sin(player.getAngle());
 
         if (player.canPlayerMoveX(dx)) {
-            player.getPlayer().x += (int)(dx);
+            if(!building.isBuildingOnPlayerXWay(player, dx))
+                player.getPlayer().x += (int)(dx);
         }
         if (player.canPlayerMoveY(dy)) {
-            player.getPlayer().y += (int)(dy);
+            if(!building.isBuildingOnPlayerYWay(player, dy))
+                player.getPlayer().y += (int)(dy);
         }
     }
 
     public Food getFood() {
         return food;
+    }
+
+    public HashMap<String, Player> getPlayers() {
+        return players;
+    }
+    public Player getPlayer() {
+        return player;
     }
 }

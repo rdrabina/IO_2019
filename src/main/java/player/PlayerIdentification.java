@@ -1,4 +1,4 @@
-package agar_io;
+package player;
 
 import java.io.Serializable;
 

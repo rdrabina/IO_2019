@@ -1,4 +1,4 @@
-package agar_io;
+package helpers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,7 +9,7 @@ import java.util.StringJoiner;
 public class JSONParser {
     private final static String JSON_PATH = "building.json";
 
-    static JSONArray parse(){
+    public static JSONArray parse(){
         StringJoiner sj;
         try {
             InputStream is = new FileInputStream(JSON_PATH);

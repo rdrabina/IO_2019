@@ -1,6 +1,7 @@
-package agar_io;
+package map.contents;
 
 import constant.Constants;
+import helpers.Position;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

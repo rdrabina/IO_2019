@@ -6,20 +6,20 @@
         {
             "name": "D17",
 
-            "startX": 50,
-            "endX": 350,
+            "startX": 1050,
+            "endX": 1350,
 
-            "startY": 50,
-            "endY": 250
+            "startY": 1050,
+            "endY": 1250
         },
         {
             "name": "D16",
 
-            "startX": 460,
-            "endX": 760,
+            "startX": 1460,
+            "endX": 1760,
 
-            "startY": 360,
-            "endY": 560
+            "startY": 1360,
+            "endY": 1560
         }
     ]
 }

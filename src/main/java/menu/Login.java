@@ -1,7 +1,9 @@
-package agar_io;
+package menu;
 
 import constant.Constants;
+import game.DisplayGame;
 import org.apache.commons.lang3.StringUtils;
+import player.PlayerIdentification;
 
 import javax.swing.*;
 import java.awt.*;
