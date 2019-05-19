@@ -1,6 +1,7 @@
 package map.contents;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.geom.Rectangle2D;
@@ -12,6 +13,8 @@ import helpers.ColorHelper;
 import helpers.JSONParser;
 import org.json.*;
 import player.Player;
+
+import javax.imageio.ImageIO;
 
 public class Building implements Serializable {
 
@@ -43,10 +46,17 @@ public class Building implements Serializable {
 
     public void drawBuildings(Graphics2D g2){
         IntStream.range(0, buildings.size()).forEach(i -> {
+            String name = buildingsName.get(i);
             g2.setColor(buildingsColors.get(i));
-            g2.fill(buildings.get(i));
+            BufferedImage bufferedImage;
+            try {
+                bufferedImage = ImageIO.read(new File("buildings/" + name + ".jpg"));
+                g2.drawImage(bufferedImage, (int) buildings.get(i).x, (int) buildings.get(i).y, null);
+            } catch (IOException e) {
+                g2.fill(buildings.get(i));
+            }
             g2.setColor(Color.WHITE);
-            g2.drawString(buildingsName.get(i), (int)(buildings.get(i).x + buildings.get(i).width/2),
+            g2.drawString(name, (int)(buildings.get(i).x + buildings.get(i).width/2),
                     (int) (buildings.get(i).y + buildings.get(i).height/2));
         });
     }

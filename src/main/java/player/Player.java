@@ -45,6 +45,10 @@ public class Player implements Serializable {
             sprite.height = sprite.width;
         }
 
+        public int getSize() {
+            return size;
+        }
+
         public void printInfoBall(Graphics2D g2, long time) {
             g2.setColor(Color.ORANGE);
             double a= TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
