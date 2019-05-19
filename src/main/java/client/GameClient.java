@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import game.Game;
 import player.Player;
@@ -21,9 +23,11 @@ public class GameClient extends Thread{
     private final String login;
     private final String faculty;
 
+    private final Semaphore semaphore;
     private Game game;
 
-    public GameClient(String addres, int port, PlayerIdentification ind, Game game) {
+    public GameClient(String addres, int port, PlayerIdentification ind, Game game, Semaphore semaphore) {
+        this.semaphore = semaphore;
         this.serverAdd = addres;
         this.serverPort = port;
         this.login = ind.getNick();
@@ -63,22 +67,24 @@ public class GameClient extends Thread{
 
     private void listenServer() throws IOException{
         while (true) {
-            byte[] msg = recv();
-            String m = new String(msg).replace("'", "\"");
-            System.out.println(m);
+            String m = recv().replace("'", "\"");
+            String msg = m.substring(0, m.length()-1);
 
-            GameData gameData = JsonIterator.deserialize(m, GameData.class);
+            GameData gameData = JsonIterator.deserialize(msg, GameData.class);
             updateServer(game.getPlayer());
         }
     }
 
     private void updateServer(Player player) {
+        semaphore.acquireUninterruptibly();
+
         String serverUpdate = "{" +
                     "'update': [] , " +
                     "'coordinates': [" +  player.getFirstExistingBall().get().getX() + ", " +
                                         player.getFirstExistingBall().get().getY() + "]," +
                     "'direction': " + player.getAngle() +
                 "}";
+        semaphore.release();
         try {
             send(serverUpdate);
         } catch (Exception e)
@@ -87,15 +93,13 @@ public class GameClient extends Thread{
         }
     }
 
-    private byte[] recv() throws IOException {
+    private String recv() throws IOException {
         byte[] buff = new byte[1024];
         int count;
-        if (inputStream != null)
-        {
-            count = inputStream.read(buff);
-            buff = Arrays.copyOfRange(buff, 0, count);
-        }
-        return buff;
+        StringBuilder b = new StringBuilder();
+        while ((count = inputStream.read(buff)) > 0)
+            b.append(new String(Arrays.copyOfRange(buff, 0, count)));
+        return b.toString();
     }
 
     private void send(String msg) throws IOException {
