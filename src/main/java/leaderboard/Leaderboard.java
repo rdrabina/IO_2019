@@ -1,5 +1,6 @@
 package leaderboard;
 
+import constant.Constants;
 import helpers.Position;
 import player.Player;
 
@@ -45,8 +46,8 @@ public class Leaderboard {
         g2.setColor(Color.BLUE);
         Font font= new Font(FONT, Font.BOLD,25);
         g2.setFont(font);
-        AtomicInteger atomicInteger = new AtomicInteger(- 450);
-        g2.drawString("LEADERBOARD: ", (int) (player.getPlayer().x + 650),
+        AtomicInteger atomicInteger = new AtomicInteger(- Constants.ACTIVE_HEIGHT_START + 50);
+        g2.drawString("LEADERBOARD: ", (int) (player.getPlayer().x + Constants.ACTIVE_WIDTH_START - 300),
                 (int) (player.getPlayer().y + atomicInteger.getAndAdd(50)));
         List<MapHelper> mapHelpers = players.entrySet().stream()
                 .map(entry -> new MapHelper(entry.getKey(), entry.getValue().getFirstExistingBall().get().getSize()))
@@ -56,6 +57,6 @@ public class Leaderboard {
 
         IntStream.range(1, mapHelpers.size() + 1)
                 .forEach(i -> g2.drawString(i + ". " + mapHelpers.get(i - 1).login + " size: " + mapHelpers.get(i - 1).size,
-                        (int) (player.getPlayer().x + 700), (int) (player.getPlayer().y + atomicInteger.getAndAdd(35))));
+                        (int) (player.getPlayer().x + Constants.ACTIVE_WIDTH_START - 250), (int) (player.getPlayer().y + atomicInteger.getAndAdd(35))));
     }
 }
