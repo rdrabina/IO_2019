@@ -12,11 +12,8 @@ public class Constants {
     public static final int MAP_HEIGHT = 3000;
     public static final int BUTTON_WIDTH = 100;
     public static final int BUTTON_HEIGHT = 50;
-    public static final int OVAL_WIDTH = 150;
-    public static final int OVAL_HEIGHT = 150;
     public static final int SPACE_BETWEEN_BUTTONS_HEIGHT = 100;
     public static final int ELEMENT_OFFSET = 100;
-    public static final int TITLE_HEIGHT = 200;
     public static final int ACTIVE_WIDTH_START;
     public static final int ACTIVE_WIDTH_STOP;
     public static final int ACTIVE_HEIGHT_START;
