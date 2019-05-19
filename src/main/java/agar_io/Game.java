@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -25,14 +26,16 @@ import static constant.Constants.*;
 import static game.GameState.*;
 
 public class Game extends JPanel implements ActionListener {
-    private Player player;
     private JViewport vPort;
-    private Food food;
     private Building building;
     private long gameTime;
     public Menu menu;
     private Position pointplayer;
     public static GameState state = GameState.MENU;
+
+    private final HashMap<String, Player> players = new HashMap<>();
+    private final Player player;
+    private final Food food = new Food();
 
     public Game() {
         Timer timer=new Timer(20,this);
@@ -41,8 +44,7 @@ public class Game extends JPanel implements ActionListener {
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
-        player= new Player(new Position(2, 2), 5, 5);
-        food = new Food();
+        player = new Player(new Position(ACTIVE_WIDTH_START, ACTIVE_HEIGHT_START), 5, 5, 1);
         building = new Building();
         Dimension newSize = new Dimension(MAP_WIDTH, MAP_HEIGHT);
         setPreferredSize(newSize);
@@ -79,6 +81,8 @@ public class Game extends JPanel implements ActionListener {
         food.draw(g2);
         building.drawBuildings(g2);
         player.drawPlayer(g2);
+        players.values().forEach(p -> p.drawPlayer(g2));
+
         pointplayer= player.getPlayerPosition();
         menu.setPlayerPosition(pointplayer);
         printInfoBall(g2, player);
@@ -87,7 +91,6 @@ public class Game extends JPanel implements ActionListener {
 
     private void printInfoBall(Graphics2D g2, Player player) {
         Optional<Player.Ball> firstExistingBall = player.getFirstExistingBall();
-        Position playerPosition = player.getPlayerPosition();
         firstExistingBall.ifPresent(ball -> ball.printInfoBall(g2, gameTime));
     }
 
@@ -95,29 +98,52 @@ public class Game extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (GameState.GAME.equals(state)){
-
-            Point mousePosition=getMousePosition();
-            if(Objects.isNull(mousePosition))return;
-
-            double dx = mousePosition.x - player.getPlayer().x - player.getPlayer().width/2;
-            double dy = mousePosition.y - player.getPlayer().y - player.getPlayer().height/2;
-            if (dx*dx+dy*dy >12) {
-
-                double angle=Math.atan2(dy, dx);
-
-                if (player.isMouseOutsideOfPlayerCircle(mousePosition)){
-                    if (player.canPlayerMoveX(dx)) {
-                        player.getPlayer().x += (int)(player.getVelocity()*Math.cos(angle));
-                    }
-                    if (player.canPlayerMoveY(dy)) {
-                        player.getPlayer().y += (int)(player.getVelocity()*Math.sin(angle));
-                    }
-                    Point view = new Point((int)player.getPlayer().x-CURRENT_WIDTH/2,(int)player.getPlayer().y-CURRENT_HEIGHT/2);
-                    vPort.setViewPosition(view);
-                }
-            }
+            moveControlledPlayer();
+            moveOtherPlayers();
             repaint();
         }
     }
 
+    private void moveControlledPlayer() {
+        Point mousePosition=getMousePosition();
+        if(Objects.isNull(mousePosition)) return;
+
+        double dx = mousePosition.x - player.getPlayer().x - player.getPlayer().width/2;
+        double dy = mousePosition.y - player.getPlayer().y - player.getPlayer().height/2;
+
+        if (dx*dx+dy*dy >12) {
+
+            double angle=Math.atan2(dy, dx);
+            player.setAngle(angle);
+
+            if (player.isMouseOutsideOfPlayerCircle(mousePosition)){
+                movePlayer(player);
+
+                Point view = new Point((int)player.getPlayer().x-CURRENT_WIDTH/2,(int)player.getPlayer().y-CURRENT_HEIGHT/2);
+                vPort.setViewPosition(view);
+            }
+        }
+    }
+
+    private void moveOtherPlayers() {
+        players.values().forEach(p -> movePlayer(p));
+    }
+
+    private void movePlayer(Player player) {
+        System.out.println("a");
+        double dx = player.getVelocity()*Math.cos(player.getAngle());
+        double dy = player.getVelocity()*Math.sin(player.getAngle());
+
+        if (player.canPlayerMoveX(dx)) {
+            System.out.println("b");
+            player.getPlayer().x += (int)(dx);
+        }
+        if (player.canPlayerMoveY(dy)) {
+            player.getPlayer().y += (int)(dy);
+        }
+    }
+
+    public Food getFood() {
+        return food;
+    }
 }
