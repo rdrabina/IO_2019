@@ -4,11 +4,11 @@ package helpers.command;
 import game.Game;
 import helpers.Position;
 
-public class AddPlankton implements Command {
+public class AddPlanktonCommand implements Command {
 
     private final Position position;
 
-    public AddPlankton(Position position) {
+    public AddPlanktonCommand(Position position) {
         this.position = position;
     }
 

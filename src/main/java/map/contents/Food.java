@@ -36,8 +36,8 @@ public class Food {
         planktons.put(position, new Ellipse2D.Double(position.x, position.y, 9.3, 9.3));
     }
 
-    public void removeFood(List<Position> positions) {
-        positions.forEach(p -> planktons.remove(p));
+    public void removeFood(Position position) {
+        planktons.remove(position);
     }
 
     public void draw(Graphics2D g2){
