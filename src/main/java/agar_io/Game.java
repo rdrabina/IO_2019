@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
 import static constant.Constants.*;
+import static game.GameState.*;
 
 public class Game extends JPanel implements ActionListener {
     private Player player;
@@ -29,9 +30,10 @@ public class Game extends JPanel implements ActionListener {
     private long time;
     public Menu menu;
     private Point pointplayer;
-    public static GameState state = GameState.MENU;
+    public static GameState state;
 
     public Game() {
+        state = MENU;
         Timer timer=new Timer(20,this);
         menu = new Menu(this);
         time = System.nanoTime();
@@ -66,7 +68,7 @@ public class Game extends JPanel implements ActionListener {
 //                menu.playerWon(g2);
                 break;
             case LOSE:
-//                menu.player2Won(g2);
+                menu.displayLost(30);
                 break;
         }
     }
@@ -92,9 +94,8 @@ public class Game extends JPanel implements ActionListener {
 
             double dx = mousePosition.x - player.getPlayer().x - player.getPlayer().width/2;
             double dy = mousePosition.y - player.getPlayer().y - player.getPlayer().height/2;
-
             if (dx*dx+dy*dy >12) {
-
+                state = LOSE;
                 double angle=Math.atan2(dy, dx);
 
                 if (player.isMouseOutsideOfPlayerCircle(mousePosition)){

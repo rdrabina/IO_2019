@@ -22,6 +22,7 @@ public class Menu implements MouseListener {
     private Rectangle playButton;
     private Rectangle quitButton;
     private boolean enabled = true;
+    private boolean lostDisplayed = false;
     private Game game;
     private Point pointPlayer1;
     public String[] args;
@@ -76,17 +77,19 @@ public class Menu implements MouseListener {
     public void setGame(Game dg){
         game = dg;
     }
+
     public void player1Won(Graphics2D g2){
         g2.setColor(Color.GREEN);
         Font font= new Font(FONT, Font.BOLD,50);
         g2.setFont(font);
         g2.drawString("YOU WON", pointPlayer1.x-100, pointPlayer1.y);
     }
-    public void player2Won(Graphics2D g2){
-        g2.setColor(Color.RED);
-        Font font= new Font(FONT, Font.BOLD,50);
-        g2.setFont(font);
-        g2.drawString("YOU LOST", pointPlayer1.x-100, pointPlayer1.y);
+    public void displayLost(int score){
+        if (lostDisplayed == false) {
+            lostDisplayed = true;
+            DisplayGame.finishGame();
+            new YouLost(score);
+        }
     }
 
     private int calculateElementsStartWidth() {
