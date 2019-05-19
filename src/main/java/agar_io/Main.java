@@ -1,5 +1,8 @@
 package agar_io;
 
+import client.GameClient;
+import org.omg.PortableServer.THREAD_POLICY_ID;
+
 import javax.swing.*;
 import java.io.IOException;
 
@@ -8,6 +11,7 @@ import static constant.Constants.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
         JFrame frame= new FormResize("AGH.IO 2019");
         JScrollPane pane= new JScrollPane();
         JViewport vport= new JViewport();

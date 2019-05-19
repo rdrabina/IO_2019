@@ -9,44 +9,49 @@ import java.util.Random;
 import static constant.Constants.*;
 
 public class Player implements Serializable {
-    private Ellipse2D.Double Player;
-    private Color playerColor;
-    private double velocity=5;
-    Random random;
-    Player(){
-        random= new Random();
-        Player=new Ellipse2D.Double(currentWidth/2, currentHeight/2, 25, 25);
-        playerColor= new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255));
+    final private int id;
+    final private Ellipse2D.Double sprite;
+    final private Color playerColor;
+
+    private double velocity;
+    private int size;
+
+    public Player(int id, Position position, double velocity, int size) {
+        Random random = new Random();
+
+        playerColor = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+        sprite = new Ellipse2D.Double(position.x, position.y, 25, 25);
+
+        this.id = id;
+        this.velocity = velocity;
+        this.size = size;
     }
-    public void drawPlayers(Graphics2D g2){
+
+    public void draw(Graphics2D g2) {
         g2.setColor(playerColor);
-        g2.fill(Player);
+        g2.fill(sprite);
     }
-    public void increaseSize(){
-        Player.width += 0.9;
-        Player.height +=0.9;
+
+    public void setSize(int size) {
+        this.size = size;
+        sprite.height = sprite.width = size;
         velocity -= 0.03;
     }
-    public void decreaseSize(){
-        Player.width -= 0.9;
-        Player.height -=0.9;
-        velocity += 0.03;
+    public int getSize() {
+        return size;
     }
-    public void moveRight(){
-        Player.x+=1;
+
+    public Ellipse2D.Double getSprite() {
+        return sprite;
     }
-    public Ellipse2D.Double getPlayer() {
-        return Player;
-    }
+
     public double getX(){
-        return Player.x;
+        return sprite.x;
     }
     public double getY(){
-        return Player.y;
+        return sprite.y;
     }
-    public void setPlayer(Ellipse2D.Double player) {
-        Player = player;
-    }
+
     public double getVelocity() {
         return velocity;
     }
