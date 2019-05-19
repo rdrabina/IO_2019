@@ -1,0 +1,25 @@
+{
+    "mapInfo": {
+        "mapName": "easy map"
+    },
+    "buildings": [
+        {
+            "name": "D17",
+
+            "startX": 50,
+            "endX": 350,
+
+            "startY": 50,
+            "endY": 250
+        },
+        {
+            "name": "D16",
+
+            "startX": 460,
+            "endX": 760,
+
+            "startY": 360,
+            "endY": 560
+        }
+    ]
+}

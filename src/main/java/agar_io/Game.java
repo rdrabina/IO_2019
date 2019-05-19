@@ -27,6 +27,7 @@ public class Game extends JPanel implements ActionListener {
     private Player player;
     private JViewport vPort;
     private Food food;
+    private Building building;
     private long gameTime;
     public Menu menu;
     private Position pointplayer;
@@ -41,6 +42,7 @@ public class Game extends JPanel implements ActionListener {
         requestFocusInWindow();
         player= new Player(new Position(2, 2), 5, 5);
         food = new Food();
+        building = new Building();
         Dimension newSize = new Dimension(MAP_WIDTH, MAP_HEIGHT);
         setPreferredSize(newSize);
         timer.start();
@@ -74,6 +76,7 @@ public class Game extends JPanel implements ActionListener {
 
     private void displayGame(Graphics2D g2) {
         food.draw(g2);
+        building.drawBuildings(g2);
         player.drawPlayer(g2);
         pointplayer= player.getPlayerPosition();
         menu.setPlayerPosition(pointplayer);

@@ -40,8 +40,8 @@ public class Player implements Serializable {
 
         private void setPlayerSize(int size) {
             this.size = size;
-            player.width = SIZE_CHANGE * (size - 5) + 25;
-            player.height = SIZE_CHANGE * (size - 5) + 25;
+//            player.width = SIZE_CHANGE * (size - 5) + 25;
+//            player.height = SIZE_CHANGE * (size - 5) + 25;
         }
 
         public void printInfoBall(Graphics2D g2, long time) {
