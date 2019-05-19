@@ -1,5 +1,7 @@
 package game;
 
+import client.GameClient;
+import client.ServerAccesor;
 import map.contents.Building;
 import map.contents.Food;
 import menu.Menu;
@@ -33,7 +35,11 @@ public class Game extends JPanel implements ActionListener {
     private final Player player;
     private final Food food = new Food();
 
-    public Game() {
+    private final ServerAccesor accesor;
+
+    public Game(ServerAccesor accesor) {
+        this.accesor = accesor;
+
         Timer timer=new Timer(20,this);
         menu = new Menu(this);
         gameTime = System.nanoTime();
@@ -118,6 +124,8 @@ public class Game extends JPanel implements ActionListener {
                 Point view = new Point((int)player.getPlayer().x-CURRENT_WIDTH/2,(int)player.getPlayer().y-CURRENT_HEIGHT/2);
                 vPort.setViewPosition(view);
             }
+
+            GameClient.updateServer(accesor, player);
         }
     }
 
@@ -141,5 +149,12 @@ public class Game extends JPanel implements ActionListener {
 
     public Food getFood() {
         return food;
+    }
+
+    public HashMap<String, Player> getPlayers() {
+        return players;
+    }
+    public Player getPlayer() {
+        return player;
     }
 }
