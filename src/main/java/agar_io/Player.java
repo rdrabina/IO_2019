@@ -1,51 +1,67 @@
 package agar_io;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import constant.Constants;
+
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.io.Serializable;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static constant.Constants.*;
 
 public class Player implements Serializable {
-    private Ellipse2D.Double Player;
+    private Ellipse2D.Double player;
     private Color playerColor;
     private double velocity=5;
-    Random random;
+    private int eatenFoodCounter;
     Player(){
-        random= new Random();
-        Player=new Ellipse2D.Double(currentWidth/2, currentHeight/2, 25, 25);
-        playerColor= new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255));
+        ThreadLocalRandom current = ThreadLocalRandom.current();
+        player=new Ellipse2D.Double(MAP_WIDTH / 2, MAP_HEIGHT / 2, 25, 25);
+        playerColor= new Color(current.nextInt(255), current.nextInt(255), current.nextInt(255));
     }
-    public void drawPlayers(Graphics2D g2){
+    public void drawPlayer(Graphics2D g2){
         g2.setColor(playerColor);
-        g2.fill(Player);
+        g2.fill(player);
     }
     public void increaseSize(){
-        Player.width += 0.9;
-        Player.height +=0.9;
-        velocity -= 0.03;
+        player.width += SIZE_CHANGE;
+        player.height += SIZE_CHANGE;
+        velocity -= VELOCITY_CHANGE;
     }
-    public void decreaseSize(){
-        Player.width -= 0.9;
-        Player.height -=0.9;
-        velocity += 0.03;
+
+    public boolean isMouseOutsideOfPlayerCircle(Point mousePosition) {
+        double x = getX();
+        double y = getY();
+        return mousePosition.getX() < x || mousePosition.getX() > x
+                || mousePosition.getY() < y || mousePosition.getY() > y;
     }
-    public void moveRight(){
-        Player.x+=1;
+
+    public boolean canPlayerMoveX(double dx) {
+        double x = player.getX();
+        return (x <= Constants.WINDOW_WIDTH / 2 && dx > 0)
+                || (x >= Constants.WINDOW_WIDTH / 2 && x < Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2)
+                || (x >= Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2 && dx < 0);
     }
+
+    public boolean canPlayerMoveY(double dy) {
+        double y = getY();
+        return (y <= Constants.ACTIVE_HEIGHT_START && dy > 0)
+                || (y >= Constants.ACTIVE_HEIGHT_START && y < Constants.ACTIVE_HEIGHT_STOP)
+                || (y >= Constants.ACTIVE_HEIGHT_STOP && dy < 0);
+    }
+
     public Ellipse2D.Double getPlayer() {
-        return Player;
+        return player;
     }
     public double getX(){
-        return Player.x;
+        return player.x;
     }
     public double getY(){
-        return Player.y;
+        return player.y;
     }
     public void setPlayer(Ellipse2D.Double player) {
-        Player = player;
+        player = player;
     }
     public double getVelocity() {
         return velocity;

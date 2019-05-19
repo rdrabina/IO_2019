@@ -64,8 +64,8 @@ public class Food implements Serializable {
         for (int i = 0; i < foods.length; i++) {
             if(foods[i] == null){
                 foods[i]= new Ellipse2D.Double(
-                        ThreadLocalRandom.current().nextInt(Constants.WINDOW_WIDTH / 2, Constants.MAP_WIDTH - Constants.WINDOW_WIDTH / 2),
-                        ThreadLocalRandom.current().nextInt(Constants.WINDOW_HEIGHT / 2, Constants.MAP_HEIGHT - Constants.WINDOW_HEIGHT / 2), 10, 10);
+                        ThreadLocalRandom.current().nextInt(Constants.ACTIVE_WIDTH_START, Constants.ACTIVE_WIDTH_STOP),
+                        ThreadLocalRandom.current().nextInt(Constants.ACTIVE_HEIGHT_START, Constants.ACTIVE_HEIGHT_STOP), 10, 10);
             }
         }
     }
