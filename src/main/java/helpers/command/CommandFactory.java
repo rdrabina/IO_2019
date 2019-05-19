@@ -1,4 +1,4 @@
-package agar_io.command;
+package helpers.command;
 
 public class CommandFactory {
 

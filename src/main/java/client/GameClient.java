@@ -4,14 +4,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-import agar_io.Food;
-import agar_io.Game;
-import agar_io.Player;
-import agar_io.PlayerIdentification;
-import agar_io.command.Command;
-import agar_io.command.CommandFactory;
-import agar_io.command.Invoker;
 import game.Game;
+import helpers.command.Command;
+import helpers.command.Invoker;
 import player.Player;
 import player.PlayerIdentification;
 import com.jsoniter.*;
@@ -27,6 +22,7 @@ public class GameClient extends Thread{
     private final String login;
     private final String faculty;
     private final ServerAccesor accesor;
+    private Invoker invoker;
 
     private Game game;
 

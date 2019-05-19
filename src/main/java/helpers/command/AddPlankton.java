@@ -1,7 +1,8 @@
-package agar_io.command;
+package helpers.command;
 
-import agar_io.Game;
-import agar_io.Position;
+
+import game.Game;
+import helpers.Position;
 
 public class AddPlankton implements Command {
 

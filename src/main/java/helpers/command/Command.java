@@ -1,6 +1,7 @@
-package agar_io.command;
+package helpers.command;
 
-import agar_io.Game;
+
+import game.Game;
 
 public interface Command {
 

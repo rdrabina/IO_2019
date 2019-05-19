@@ -1,7 +1,6 @@
-package agar_io.command;
+package helpers.command;
 
-import agar_io.Game;
-
+import game.Game;
 import java.util.LinkedList;
 import java.util.List;
 
