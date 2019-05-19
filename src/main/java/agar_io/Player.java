@@ -55,7 +55,6 @@ public class Player implements Serializable {
             g2.drawString("RADIUS OF BALL: "+ Math.floor(sprite.height),(int)(getX()-350), (int)(getY() - 280));
             g2.drawString("TIME: "+a, (int)(getX()-350), (int)(getY() - 260));
         }
-    }
 
         public void draw(Graphics2D g2) {
             g2.setColor(playerColor);

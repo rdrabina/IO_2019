@@ -27,16 +27,14 @@ import static game.GameState.*;
 
 public class Game extends JPanel implements ActionListener {
     private JViewport vPort;
-    private Food food;
     private Building building;
     private long gameTime;
     public Menu menu;
     private Position pointplayer;
     public static GameState state = GameState.MENU;
-    private long gameTime;
 
     private final HashMap<String, Player> players = new HashMap<>();
-    private final Player player = new Player(new Position(ACTIVE_WIDTH_START, ACTIVE_HEIGHT_START), 5, 4, 0);
+    private final Player player;
     private final Food food = new Food();
 
     public Game() {
@@ -46,8 +44,7 @@ public class Game extends JPanel implements ActionListener {
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
-        player= new Player(new Position(2, 2), 5, 5);
-        food = new Food();
+        player = new Player(new Position(ACTIVE_WIDTH_START, ACTIVE_HEIGHT_START), 5, 5, 1);
         building = new Building();
         Dimension newSize = new Dimension(MAP_WIDTH, MAP_HEIGHT);
         setPreferredSize(newSize);
