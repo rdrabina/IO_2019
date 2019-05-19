@@ -2,59 +2,59 @@ package helpers.command;
 
 import helpers.Position;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CommandFactory {
     private GameData gameData;
+    private Invoker invoker;
 
-    public CommandFactory(GameData gameData)
+    public CommandFactory(GameData gameData, Invoker invoker)
     {
         this.gameData = gameData;
+        this.invoker = invoker;
     }
 
-    public List<AddPlanktonCommand> getAddPlanktonCommands()
+    public void getAddPlanktonCommands()
     {
-        List<AddPlanktonCommand> addPlanktonCommands = new ArrayList<>();
-
         for(AddPlanktonData planktonData: gameData.addPlanktonData)
         {
             Integer x = planktonData.coordinates.get(0);
             Integer y = planktonData.coordinates.get(1);
             Position position = new Position(x, y);
             AddPlanktonCommand addPlanktonCommand = new AddPlanktonCommand(position);
-            addPlanktonCommands.add(addPlanktonCommand);
+            this.invoker.addCommand(addPlanktonCommand);
         }
-        return addPlanktonCommands;
     }
 
-    public List<RemovePlanktonCommand> getRemovePlanktonCommands()
+    public void getRemovePlanktonCommands()
     {
-        List<RemovePlanktonCommand> removePlanktonCommands = new ArrayList<>();
-
         for(RemovePlanktonData removePlankton: gameData.removePlanktonData)
         {
             Integer x = removePlankton.coordinates.get(0);
             Integer y = removePlankton.coordinates.get(1);
             Position position = new Position(x, y);
             RemovePlanktonCommand removePlanktonCommand = new RemovePlanktonCommand(position);
-            removePlanktonCommands.add(removePlanktonCommand);
+            this.invoker.addCommand(removePlanktonCommand);
         }
-        return removePlanktonCommands;
     }
 
 
-    public List<AddPlayerCommand> getAddPlayerCommands()
+    public void getAddPlayerCommands()
     {
-        List<AddPlayerCommand> addPlayerCommands = new ArrayList<>();
-
         for(AddPlayerData addPlayerData: gameData.addPlayerData)
         {
             AddPlayerCommand addPlayerCommand = new AddPlayerCommand(addPlayerData);
-            addPlayerCommands.add(addPlayerCommand);
+            this.invoker.addCommand(addPlayerCommand);
         }
-        return addPlayerCommands;
     }
 
+    public void getRemovePlayerCommands()
+    {
+        for(RemovePlayerData removePlayerData: gameData.removePlayerData)
+        {
+            RemovePlayerCommand removePlayerCommand = new RemovePlayerCommand(removePlayerData.login);
+            this.invoker.addCommand(removePlayerCommand);
+        }
+    }
+
+    public Invoker getInvoker() {return invoker;}
 
 }
