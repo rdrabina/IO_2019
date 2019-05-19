@@ -1,8 +1,4 @@
-package agar_io;
-
-import javax.swing.*;
-
-import static constant.Constants.*;
+import menu.Login;
 
 public class Main {
 

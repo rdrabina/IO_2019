@@ -1,4 +1,4 @@
-package agar_io;
+package map.contents;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import helpers.ColorHelper;
+import helpers.JSONParser;
 import org.json.*;
 
 public class Building implements Serializable {
@@ -18,7 +20,7 @@ public class Building implements Serializable {
     private JSONArray arrayBuildings;
 
 
-    Building() {
+    public Building() {
         arrayBuildings = JSONParser.parse();
         buildings = new ArrayList<>();
         buildingsName = new ArrayList<>();

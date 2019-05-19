@@ -6,10 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import agar_io.Food;
-import agar_io.Game;
-import agar_io.Player;
-import agar_io.PlayerIdentification;
+import game.Game;
+import player.PlayerIdentification;
 import com.jsoniter.*;
 
 public class GameClient extends Thread{

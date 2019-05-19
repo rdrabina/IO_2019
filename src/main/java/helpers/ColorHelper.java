@@ -1,4 +1,4 @@
-package agar_io;
+package helpers;
 
 import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;

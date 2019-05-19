@@ -1,6 +1,8 @@
-package agar_io;
+package game;
 
+import helpers.FormResize;
 import client.GameClient;
+import player.PlayerIdentification;
 
 import javax.swing.*;
 
