@@ -2,14 +2,15 @@ package client;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import agar_io.Food;
 import agar_io.Game;
 import agar_io.Player;
 import agar_io.PlayerIdentification;
+import agar_io.command.Command;
+import agar_io.command.CommandFactory;
+import agar_io.command.Invoker;
 import com.jsoniter.*;
 
 public class GameClient extends Thread{
@@ -22,6 +23,7 @@ public class GameClient extends Thread{
     private final int serverPort;
     private String login;
     private String faculty;
+    private Invoker invoker;
 
     private Game game;
 
@@ -31,26 +33,29 @@ public class GameClient extends Thread{
         this.login = ind.getNick();
         this.faculty = ind.getFaculty();
         this.game = game;
+        this.invoker = new Invoker();
     }
 
     @Override
     public void run() {
-//        try {
-//            System.out.println("Game client started");
-//            initConnection();
-//            login();
-//            listenServer();
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        String a = "{\"players\": {\"login23\": {\"coordinates\": [5, 5], \"weight\": 3, \"login\": \"login23\", \"department\": \"s\", \"image\": \"s\", \"velocity\": 0, \"direction\": [0, 0]}}, \"plankton\": []}";
+        try {
+            System.out.println("Game client started");
+            initConnection();
+            login();
+            listenServer();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            GameData gameData = JsonIterator.deserialize(a, GameData.class);
-            for (PlayerData pd: gameData.players.values())
-                System.out.println(pd.coordinates + " " + pd.wieght + " " + pd.login);
-            for (PlanktonData pn: gameData.plankton)
-                System.out.println(pn.x + " " + pn.y);
+        String a = "{\"players\": {\"login23\": {\"coordinates\": [5, 5], \"weight\": 3, \"login\": \"login23\", " +
+                "\"department\": \"s\", \"image\": \"s\", \"velocity\": 0, \"direction\": [0, 0]}}, \"plankton\": []}";
+
+        GameData gameData = JsonIterator.deserialize(a, GameData.class);
+        for (PlayerData pd: gameData.players.values())
+            System.out.println(pd.coordinates + " " + pd.wieght + " " + pd.login);
+        for (PlanktonData pn: gameData.plankton)
+            System.out.println(pn.x + " " + pn.y);
     }
 
     private void initConnection() throws IOException{
@@ -75,12 +80,14 @@ public class GameClient extends Thread{
             byte[] msg = recv();
             System.out.println(new String(msg));
 
-//            GameData gameData = JsonIterator.deserialize(msg, GameData.class);
-//            updateModel(gameData);
-//            for (PlayerData pd: gameData.play)
-//                System.out.println(pd.id + " " + pd.x + " " + pd.y);
-//            for (PlanktonData pn: gameData.plan)
-//                System.out.println(pn.x + " " + pn.y);
+            //TODO parse string to list of commands -> command factory
+            //TODO receive list of commands
+            //TODO for command in commands: invoker.storeCommand
+            ArrayList<Command> commandList = new ArrayList<>();
+            //TODO commandList = ...
+            for(Command command: commandList)
+                invoker.addCommand(command);
+            invoker.executeCommands(game);
         }
     }
 
