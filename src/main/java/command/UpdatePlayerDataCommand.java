@@ -1,7 +1,4 @@
-package helpers.command;
-import game.Game;
-
-public class UpdatePlayerDataCommand implements Command {
+package command;
 
     private UpdatePlayerData updatePlayerData;
 

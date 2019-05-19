@@ -8,6 +8,7 @@ import map.contents.Food;
 import menu.Menu;
 import helpers.Position;
 import player.Player;
+import player.PlayerIdentification;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -38,7 +39,7 @@ public class Game extends JPanel implements ActionListener {
 
     private final ServerAccesor accesor;
 
-    public Game(ServerAccesor accesor) {
+    public Game(ServerAccesor accesor, PlayerIdentification identification) {
         this.accesor = accesor;
 
         Timer timer=new Timer(20,this);
@@ -47,7 +48,7 @@ public class Game extends JPanel implements ActionListener {
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
-        player = new Player(new Position(ACTIVE_WIDTH_START, ACTIVE_HEIGHT_START), 5, 5, 1);
+        player = new Player(identification, new Position(ACTIVE_WIDTH_START, ACTIVE_HEIGHT_START), 5, 5, 1);
         building = new Building();
         Dimension newSize = new Dimension(MAP_WIDTH, MAP_HEIGHT);
         setPreferredSize(newSize);
@@ -132,7 +133,7 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void moveOtherPlayers() {
-        players.values().forEach(p -> movePlayer(p));
+        players.values().forEach(this::movePlayer);
     }
 
     private void movePlayer(Player player) {

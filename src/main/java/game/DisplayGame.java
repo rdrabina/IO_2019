@@ -24,7 +24,7 @@ public class DisplayGame {
 
         ServerAccesor accesor = new ServerAccesor();
 
-        Game panel= new Game(accesor);
+        Game panel= new Game(accesor, ind);
 
         GameClient client = new GameClient("localhost", 9998, ind, panel, accesor);
         client.run();

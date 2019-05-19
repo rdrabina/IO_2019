@@ -1,4 +1,6 @@
-package helpers.command;
+package command;
+
+
 import game.Game;
 
 public interface Command {

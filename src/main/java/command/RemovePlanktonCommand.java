@@ -1,4 +1,4 @@
-package helpers.command;
+package command;
 
 
 import game.Game;

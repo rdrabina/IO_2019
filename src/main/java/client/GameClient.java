@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.*;
 
 import game.Game;
-import helpers.command.*;
+import command.*;
 import player.Player;
 import player.PlayerIdentification;
 import com.jsoniter.*;
