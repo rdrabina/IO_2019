@@ -35,15 +35,16 @@ public class GameClient extends Thread{
 
     @Override
     public void run() {
-        try {
-            System.out.println("Game client started");
-            initConnection();
-            login();
-            listenServer();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            System.out.println("Game client started");
+//            initConnection();
+//            login();
+//            listenServer();
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        String a = "{'players': {'login23': {'coordinates': [5, 5], 'weight': 3, 'login': 'login23', 'department': None, 'image': None, 'velocity': 0, 'direction': [0, 0]}}, 'plankton': {}}";
     }
 
     private void initConnection() throws IOException{
@@ -91,18 +92,18 @@ public class GameClient extends Thread{
     }
 }
 class PlayerData {
-    public int id;
-    public int wght;
-    public int x;
-    public int y;
-    public int xV;
-    public int yV;
+    public int coordinates;
+    public int wieght;
+    public int login;
+    public int department;
+    public int image;
+    public int velocity;
 }
 class PlanktonData {
     public int x;
     public int y;
 }
 class GameData {
-    public List<PlayerData> play;
-    public List<PlanktonData> plan;
+    public Map<String, PlayerData> players;
+    public List<PlanktonData> plankton;
 }
