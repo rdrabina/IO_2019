@@ -15,11 +15,11 @@
         {
             "name": "D16",
 
-            "startX": 1200,
-            "endX": 1400,
+            "startX": 2000,
+            "endX": 2200,
 
-            "startY": 1100,
-            "endY": 1250
+            "startY": 1400,
+            "endY": 1550
         },
         {
             "name": "D10",
@@ -27,8 +27,8 @@
             "startX": 1500,
             "endX": 1700,
 
-            "startY": 1250,
-            "endY": 1400
+            "startY": 1850,
+            "endY": 2000
         },
         {
             "name": "D17",
@@ -38,6 +38,33 @@
 
             "startY": 800,
             "endY": 950
-        }
+        },
+        {
+            "name": "D5",
+
+            "startX": 2000,
+            "endX": 2200,
+
+            "startY": 600,
+            "endY": 750
+        },
+        {
+            "name": "B13",
+
+            "startX": 2500,
+            "endX": 2700,
+
+            "startY": 2050,
+            "endY": 2200
+        },
+        {
+            "name": "B7",
+
+            "startX": 2750,
+            "endX": 2950,
+
+            "startY": 1400,
+            "endY": 1550
+      }
     ]
 }
