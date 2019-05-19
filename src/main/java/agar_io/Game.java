@@ -102,7 +102,7 @@ public class Game extends JPanel implements ActionListener {
             double dx = mousePosition.x - player.getPlayer().x - player.getPlayer().width/2;
             double dy = mousePosition.y - player.getPlayer().y - player.getPlayer().height/2;
             if (dx*dx+dy*dy >12) {
-                state = LOSE;
+
                 double angle=Math.atan2(dy, dx);
 
                 if (player.isMouseOutsideOfPlayerCircle(mousePosition)){
