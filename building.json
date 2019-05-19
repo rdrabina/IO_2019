@@ -4,22 +4,40 @@
     },
     "buildings": [
         {
-            "name": "D17",
+            "name": "D9",
 
-            "startX": 1050,
-            "endX": 1350,
+            "startX": 900,
+            "endX": 1100,
 
-            "startY": 1050,
-            "endY": 1250
+            "startY": 1000,
+            "endY": 1150
         },
         {
             "name": "D16",
 
-            "startX": 1460,
-            "endX": 1760,
+            "startX": 1200,
+            "endX": 1400,
 
-            "startY": 1360,
-            "endY": 1560
+            "startY": 1100,
+            "endY": 1250
+        },
+        {
+            "name": "D10",
+
+            "startX": 1500,
+            "endX": 1700,
+
+            "startY": 1250,
+            "endY": 1400
+        },
+        {
+            "name": "D17",
+
+            "startX": 1500,
+            "endX": 1700,
+
+            "startY": 800,
+            "endY": 950
         }
     ]
 }
