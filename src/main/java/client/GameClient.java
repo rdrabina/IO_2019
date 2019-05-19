@@ -44,11 +44,11 @@ public class GameClient extends Thread{
 //        }
         String a = "{\"players\": {\"login23\": {\"coordinates\": [5, 5], \"weight\": 3, \"login\": \"login23\", \"department\": \"s\", \"image\": \"s\", \"velocity\": 0, \"direction\": [0, 0]}}, \"plankton\": []}";
 
-            GameData gameData = JsonIterator.deserialize(a, GameData.class);
-            for (PlayerData pd: gameData.players.values())
-                System.out.println(pd.coordinates + " " + pd.wieght + " " + pd.login);
-            for (PlanktonData pn: gameData.plankton)
-                System.out.println(pn.x + " " + pn.y);
+//            GameData gameData = JsonIterator.deserialize(a, GameData.class);
+//            for (PlayerData pd: gameData.players.values())
+//                System.out.println(pd.coordinates + " " + pd.wieght + " " + pd.login);
+//            for (PlanktonData pn: gameData.plankton)
+//                System.out.println(pn.x + " " + pn.y);
     }
 
     private void initConnection() throws IOException{
@@ -71,7 +71,8 @@ public class GameClient extends Thread{
     private void listenServer() throws IOException{
         while (true) {
             byte[] msg = recv();
-            System.out.println(new String(msg));
+            String m = new String(msg).replace("'", "\"");
+            System.out.println(m);
 
 //            GameData gameData = JsonIterator.deserialize(msg, GameData.class);
 //            updateModel(gameData);
@@ -88,9 +89,9 @@ public class GameClient extends Thread{
         return Arrays.copyOfRange(buff, 0, count);
     }
 
-    private void updateModel(GameData data) {
+//    private void updateModel(GameData data) {
 
-    }
+//    }
 }
 class PlayerData {
     public List<Integer> coordinates;
@@ -104,7 +105,7 @@ class PlanktonData {
     public int x;
     public int y;
 }
-class GameData {
+class Data {
     public Map<String, PlayerData> players;
     public List<PlanktonData> plankton;
 }

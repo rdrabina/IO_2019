@@ -142,4 +142,11 @@ public class Game extends JPanel implements ActionListener {
     public Food getFood() {
         return food;
     }
+
+    public HashMap<String, Player> getPlayers() {
+        return players;
+    }
+    public Player getPlayer() {
+        return player;
+    }
 }
