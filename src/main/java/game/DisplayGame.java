@@ -7,6 +7,7 @@ import player.PlayerIdentification;
 import javax.swing.*;
 
 import java.awt.event.WindowEvent;
+import java.util.concurrent.Semaphore;
 
 import static constant.Constants.*;
 
@@ -17,10 +18,11 @@ public class DisplayGame {
         frame= new FormResize(TITLE);
         JScrollPane pane= new JScrollPane();
         JViewport vport= new JViewport();
+        Semaphore semaphore = new Semaphore(1);
 
-        Game panel= new Game();
+        Game panel= new Game(semaphore);
 
-        GameClient client = new GameClient("localhost", 9998, ind, panel);
+        GameClient client = new GameClient("localhost", 9998, ind, panel, semaphore);
         client.start();
 
         frame.setVisible(true);

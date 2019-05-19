@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.Semaphore;
 import javax.swing.*;
 
 import static constant.Constants.*;
@@ -34,7 +35,10 @@ public class Game extends JPanel implements ActionListener {
     private final Player player;
     private final Food food = new Food();
 
-    public Game() {
+    private final Semaphore semaphore;
+
+    public Game(Semaphore semaphore) {
+        this.semaphore = semaphore;
 
         Timer timer=new Timer(20,this);
         menu = new Menu(this);
@@ -81,14 +85,15 @@ public class Game extends JPanel implements ActionListener {
 
     private void displayGame(Graphics2D g2) {
         food.draw(g2);
-        building.drawBuildings(g2);
         player.drawPlayer(g2);
+        pointplayer= player.getPlayerPosition();
+        printInfoBall(g2, player);
+
+        Leaderboard.printLeaderboard(g2, players, player);
         players.values().forEach(p -> p.drawPlayer(g2));
 
-        pointplayer= player.getPlayerPosition();
+        building.drawBuildings(g2);
         menu.setPlayerPosition(pointplayer);
-        printInfoBall(g2, player);
-        Leaderboard.printLeaderboard(g2, players, player);
         g2.dispose();
     }
 
@@ -101,6 +106,7 @@ public class Game extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (GameState.GAME.equals(state)){
+            semaphore.acquireUninterruptibly();
             moveControlledPlayer();
             moveOtherPlayers();
             repaint();
