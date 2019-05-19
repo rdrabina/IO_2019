@@ -24,7 +24,7 @@ public class Menu implements MouseListener {
     private Rectangle playButton;
     private Rectangle quitButton;
     private boolean enabled = true;
-    private boolean lostDisplayed = false;
+    private boolean gameFinished = false;
     private Game game;
     private Position playerPosition;
     public String[] args;
@@ -80,17 +80,16 @@ public class Menu implements MouseListener {
         game = dg;
     }
 
-    public void player1Won(Graphics2D g2){
-        g2.setColor(Color.GREEN);
-        Font font= new Font(FONT, Font.BOLD,50);
-        g2.setFont(font);
-        g2.drawString("YOU WON", (int) playerPosition.x-100, (int) playerPosition.y);
+    public void displayWin(int score){
+        if (gameFinished == false) {
+            gameFinished = true;
+            new GameOver(score, true);
+        }
     }
     public void displayLost(int score){
-        if (lostDisplayed == false) {
-            lostDisplayed = true;
-            DisplayGame.finishGame();
-            new YouLost(score);
+        if (gameFinished == false) {
+            gameFinished = true;
+            new GameOver(score, false);
         }
     }
 

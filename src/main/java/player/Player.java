@@ -21,11 +21,13 @@ public class Player implements Serializable {
 
     private double angle;
     private double velocity;
+    private int size;
 
     public Player(Position position, int size, int velocity, double angle){
         ballList.add(new Ball(size, position));
         this.velocity = velocity;
         this.angle = angle;
+        this.size = size;
 
         playerColor = ColorHelper.getRandomColor();
     }
@@ -122,6 +124,10 @@ public class Player implements Serializable {
 
     public double getAngle() {
         return angle;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public void setAngle(double angle) {

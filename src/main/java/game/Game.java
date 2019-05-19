@@ -23,6 +23,7 @@ import java.util.Optional;
 import javax.swing.*;
 
 import static constant.Constants.*;
+import static game.GameState.MENU;
 
 public class Game extends JPanel implements ActionListener {
     private JViewport vPort;
@@ -30,7 +31,7 @@ public class Game extends JPanel implements ActionListener {
     private long gameTime;
     public Menu menu;
     private Position pointplayer;
-    public static GameState state = GameState.MENU;
+    public static GameState state = MENU;
 
     private final HashMap<String, Player> players = new HashMap<>();
     private final Player player;
@@ -72,10 +73,14 @@ public class Game extends JPanel implements ActionListener {
                 displayGame(g2);
                 break;
             case WIN:
-//                menu.playerWon(g2);
+                DisplayGame.finishGame();
+                state = MENU;
+                menu.displayWin(player.getSize());
                 break;
             case LOSE:
-                menu.displayLost(30);
+                DisplayGame.finishGame();
+                state = MENU;
+                menu.displayLost(player.getSize());
                 break;
         }
     }
@@ -116,7 +121,6 @@ public class Game extends JPanel implements ActionListener {
         double dy = mousePosition.y - player.getPlayer().y - player.getPlayer().height/2;
 
         if (dx*dx+dy*dy >12) {
-
             double angle=Math.atan2(dy, dx);
             player.setAngle(angle);
 
