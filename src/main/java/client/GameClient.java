@@ -22,6 +22,8 @@ public class GameClient extends Thread{
     private final int serverPort;
     private final String login;
     private final String faculty;
+    private final ServerAccesor accesor;
+    private Invoker invoker;
 
     private final Semaphore semaphore;
     private Game game;
@@ -33,6 +35,8 @@ public class GameClient extends Thread{
         this.login = ind.getNick();
         this.faculty = ind.getFaculty();
         this.game = game;
+        this.accesor = accesor;
+        this.invoker = new Invoker();
     }
 
     @Override
@@ -71,7 +75,11 @@ public class GameClient extends Thread{
             String msg = m.substring(0, m.length()-1);
 
             GameData gameData = JsonIterator.deserialize(msg, GameData.class);
-            updateServer(game.getPlayer());
+            CommandFactory commandFactory = new CommandFactory(gameData, invoker);
+
+            commandFactory.generateCommandsFromGameData();
+            invoker = commandFactory.getInvoker();
+            invoker.executeCommands(game);
         }
     }
 
@@ -106,36 +114,4 @@ public class GameClient extends Thread{
         outputStream.write(msg);
         outputStream.flush();
     }
-}
-class AddPlanktonData {
-    public List<Integer> coordinates;
-    public Integer weight;
-}
-class RemovePlanktonData {
-    public List<Integer> coordinates;
-}
-class AddPlayerData {
-    public String login;
-    public List<Integer> coordinates;
-    public Integer size;
-    public Double angle;
-    public Integer velocity;
-}
-class RemovePlayerData {
-    public String login;
-}
-class UpdatePlayerData {
-    public String login;
-    public List<Integer> coordinates;
-    public Integer size;
-    public Double angle;
-    public Integer velocity;
-}
-
-class GameData {
-    public List<AddPlanktonData> addPlanktonData;
-    public List<RemovePlanktonData> removePlanktonData;
-    public List<AddPlayerData> addPlayerData;
-    public List<RemovePlayerData> removePlayerData;
-    public List<UpdatePlayerData> updatePlayerData;
 }

@@ -5,6 +5,7 @@ import map.contents.Food;
 import menu.Menu;
 import helpers.Position;
 import player.Player;
+import player.PlayerIdentification;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -134,7 +135,7 @@ public class Game extends JPanel implements ActionListener {
     }
 
     private void moveOtherPlayers() {
-        players.values().forEach(p -> movePlayer(p));
+        players.values().forEach(this::movePlayer);
     }
 
     private void movePlayer(Player player) {

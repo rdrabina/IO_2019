@@ -19,11 +19,13 @@ public class Player implements Serializable {
     private Color playerColor;
     private List<Ball> ballList = new ArrayList<>();
 
+    private PlayerIdentification identification;
     private double angle;
     private double velocity;
     private int size;
 
-    public Player(Position position, int size, int velocity, double angle){
+    public Player(PlayerIdentification identification, Position position, int size, int velocity, double angle){
+        this.identification = identification;
         ballList.add(new Ball(size, position));
         this.velocity = velocity;
         this.angle = angle;
@@ -103,6 +105,14 @@ public class Player implements Serializable {
                 || (y >= ACTIVE_HEIGHT_STOP && dy < 0);
     }
 
+    public void updateVelocity(int weight) {
+        this.velocity = 10 - Math.log(weight);
+    }
+
+    public void updateSize(int weight) {
+        ballList.forEach(ball -> ball.size = (int) Math.sqrt(weight) + 20);
+    }
+
     public Ellipse2D.Double getPlayer() {
         return getFirstExistingBall().get().getSprite();
     }
@@ -132,5 +142,13 @@ public class Player implements Serializable {
 
     public void setAngle(double angle) {
         this.angle = angle;
+    }
+
+    public PlayerIdentification getIdentification() {
+        return identification;
+    }
+
+    public void setIdentification(PlayerIdentification identification) {
+        this.identification = identification;
     }
 }
