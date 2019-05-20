@@ -3,10 +3,11 @@ package client;
 import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Semaphore;
 
+import command.CommandFactory;
+import command.GameData;
+import command.Invoker;
 import game.Game;
 import player.Player;
 import player.PlayerIdentification;
@@ -22,7 +23,6 @@ public class GameClient extends Thread{
     private final int serverPort;
     private final String login;
     private final String faculty;
-    private final ServerAccesor accesor;
     private Invoker invoker;
 
     private final Semaphore semaphore;
@@ -35,7 +35,6 @@ public class GameClient extends Thread{
         this.login = ind.getNick();
         this.faculty = ind.getFaculty();
         this.game = game;
-        this.accesor = accesor;
         this.invoker = new Invoker();
     }
 

@@ -19,11 +19,11 @@ public class Leaderboard {
     static HashMap<String, Player> map = new HashMap<>();
 
     static void initializeMap() {
-        map.put("login1", new Player(new Position(500.0, 500.0), 20, 20, 20.0));
-        map.put("login2", new Player(new Position(500.0, 500.0), 25, 20, 20.0));
-        map.put("login3", new Player(new Position(500.0, 500.0), 15, 20, 20.0));
-        map.put("login4", new Player(new Position(500.0, 500.0), 30, 20, 20.0));
-        map.put("login5", new Player(new Position(500.0, 500.0), 100, 20, 20.0));
+        map.put("login1", new Player(null, new Position(500.0, 500.0), 20, 20, 20.0));
+        map.put("login2", new Player(null, new Position(500.0, 500.0), 25, 20, 20.0));
+        map.put("login3", new Player(null, new Position(500.0, 500.0), 15, 20, 20.0));
+        map.put("login4", new Player(null, new Position(500.0, 500.0), 30, 20, 20.0));
+        map.put("login5", new Player(null, new Position(500.0, 500.0), 100, 20, 20.0));
     }
 
     private static class MapHelper {

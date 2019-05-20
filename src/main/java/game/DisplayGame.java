@@ -20,7 +20,7 @@ public class DisplayGame {
         JViewport vport= new JViewport();
         Semaphore semaphore = new Semaphore(1);
 
-        Game panel= new Game(semaphore);
+        Game panel= new Game(semaphore, ind);
 
         GameClient client = new GameClient("localhost", 9998, ind, panel, semaphore);
         client.start();

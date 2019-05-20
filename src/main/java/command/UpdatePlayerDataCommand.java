@@ -1,5 +1,9 @@
 package command;
 
+import game.Game;
+
+public class UpdatePlayerDataCommand implements Command
+{
     private UpdatePlayerData updatePlayerData;
 
     public UpdatePlayerDataCommand(UpdatePlayerData updatePlayerData) {

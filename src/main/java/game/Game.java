@@ -38,7 +38,7 @@ public class Game extends JPanel implements ActionListener {
 
     private final Semaphore semaphore;
 
-    public Game(Semaphore semaphore) {
+    public Game(Semaphore semaphore, PlayerIdentification identification) {
         this.semaphore = semaphore;
 
         Timer timer=new Timer(20,this);
@@ -47,7 +47,7 @@ public class Game extends JPanel implements ActionListener {
         addMouseListener(menu);
         setFocusable(true);
         requestFocusInWindow();
-        player = new Player(new Position(ACTIVE_WIDTH_START, ACTIVE_HEIGHT_START), 5, 5, 1);
+        player = new Player(identification, new Position(ACTIVE_WIDTH_START, ACTIVE_HEIGHT_START), 5, 5, 1);
         building = new Building();
         Dimension newSize = new Dimension(MAP_WIDTH, MAP_HEIGHT);
         setPreferredSize(newSize);
