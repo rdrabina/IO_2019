@@ -111,6 +111,7 @@ public class Game extends JPanel implements ActionListener {
             moveControlledPlayer();
             moveOtherPlayers();
             repaint();
+            semaphore.release();
         }
     }
 

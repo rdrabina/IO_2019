@@ -23,7 +23,7 @@ public class CommandFactory {
 
     private void generateAddPlanktonCommands()
     {
-        for(AddPlanktonData planktonData: gameData.addPlanktonData)
+        for(AddPlanktonData planktonData: gameData.addPlankton)
         {
             Integer x = planktonData.coordinates.get(0);
             Integer y = planktonData.coordinates.get(1);
@@ -35,7 +35,7 @@ public class CommandFactory {
 
     private void generateRemovePlanktonCommands()
     {
-        for(RemovePlanktonData removePlankton: gameData.removePlanktonData)
+        for(RemovePlanktonData removePlankton: gameData.removePlankton)
         {
             Integer x = removePlankton.coordinates.get(0);
             Integer y = removePlankton.coordinates.get(1);
@@ -48,7 +48,7 @@ public class CommandFactory {
 
     private void generateAddPlayerCommands()
     {
-        for(AddPlayerData addPlayerData: gameData.addPlayerData)
+        for(AddPlayerData addPlayerData: gameData.addPlayer)
         {
             AddPlayerCommand addPlayerCommand = new AddPlayerCommand(addPlayerData);
             this.invoker.addCommand(addPlayerCommand);
@@ -57,7 +57,7 @@ public class CommandFactory {
 
     private void generateRemovePlayerCommands()
     {
-        for(RemovePlayerData removePlayerData: gameData.removePlayerData)
+        for(RemovePlayerData removePlayerData: gameData.removePlayer)
         {
             RemovePlayerCommand removePlayerCommand = new RemovePlayerCommand(removePlayerData.login);
             this.invoker.addCommand(removePlayerCommand);
@@ -66,7 +66,7 @@ public class CommandFactory {
 
     private void generateUpdatePlayerCommands()
     {
-        for(UpdatePlayerData updatePlayerData: gameData.updatePlayerData)
+        for(UpdatePlayerData updatePlayerData: gameData.updatePlayer)
         {
             UpdatePlayerDataCommand updatePlayerDataCommand = new UpdatePlayerDataCommand(updatePlayerData);
             this.invoker.addCommand(updatePlayerDataCommand);
