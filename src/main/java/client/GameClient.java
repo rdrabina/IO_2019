@@ -64,21 +64,26 @@ public class GameClient extends Thread{
                 "{" +
                         "\"login\": \"" + login + "\"" +
                 "}";
-        outputStream.write(loginJson);
-        outputStream.flush();
+        send(loginJson);
     }
 
     private void listenServer() throws IOException{
         while (true) {
             String m = recv().replace("'", "\"");
-            String msg = m.substring(0, m.length()-1);
+            String msg = m.substring(1, m.length()-1);
+            System.out.println(msg);
 
             GameData gameData = JsonIterator.deserialize(msg, GameData.class);
             CommandFactory commandFactory = new CommandFactory(gameData, invoker);
 
             commandFactory.generateCommandsFromGameData();
             invoker = commandFactory.getInvoker();
+
+            semaphore.acquireUninterruptibly();
             invoker.executeCommands(game);
+            semaphore.release();
+
+            updateServer(game.getPlayer());
         }
     }
 
@@ -86,13 +91,14 @@ public class GameClient extends Thread{
         semaphore.acquireUninterruptibly();
 
         String serverUpdate = "{" +
-                    "'update': [] , " +
-                    "'coordinates': [" +  player.getFirstExistingBall().get().getX() + ", " +
+                    "\"update\": [] , " +
+                    "\"coordinates\": [" +  player.getFirstExistingBall().get().getX() + ", " +
                                         player.getFirstExistingBall().get().getY() + "]," +
-                    "'direction': " + player.getAngle() +
+                    "\"direction\": " + player.getAngle() +
                 "}";
         semaphore.release();
         try {
+            System.out.println("sssssssss");
             send(serverUpdate);
         } catch (Exception e)
         {
@@ -101,11 +107,14 @@ public class GameClient extends Thread{
     }
 
     private String recv() throws IOException {
-        byte[] buff = new byte[1024];
+        int len = 1024;
+        byte[] buff = new byte[len];
         int count;
         StringBuilder b = new StringBuilder();
-        while ((count = inputStream.read(buff)) > 0)
+        do {
+            count = inputStream.read(buff);
             b.append(new String(Arrays.copyOfRange(buff, 0, count)));
+        } while (count == len);
         return b.toString();
     }
 

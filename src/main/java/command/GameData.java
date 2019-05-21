@@ -13,7 +13,7 @@ class AddPlayerData {
     public String login;
     public List<Integer> coordinates;
     public Integer size;
-    public Double angle;
+    public Double direction;
     public Integer velocity;
 }
 class RemovePlayerData {
@@ -28,9 +28,9 @@ class UpdatePlayerData {
 }
 
 public class GameData {
-    public List<AddPlanktonData> addPlanktonData;
-    public List<RemovePlanktonData> removePlanktonData;
-    public List<AddPlayerData> addPlayerData;
-    public List<RemovePlayerData> removePlayerData;
-    public List<UpdatePlayerData> updatePlayerData;
+    public List<AddPlanktonData> addPlankton;
+    public List<RemovePlanktonData> removePlankton;
+    public List<AddPlayerData> addPlayer;
+    public List<RemovePlayerData> removePlayer;
+    public List<UpdatePlayerData> updatePlayer;
 }
