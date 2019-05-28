@@ -41,6 +41,7 @@ public class Leaderboard {
     }
 
     public static void printLeaderboard(Graphics2D g2, HashMap<String, Player> players, Player player) {
+        //to comment if players will be updated
         initializeMap();
         players = map;
         g2.setColor(Color.BLUE);

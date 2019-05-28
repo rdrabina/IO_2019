@@ -1,16 +1,18 @@
 package player;
 
+import menu.College;
+
 import java.io.Serializable;
 
 public class PlayerIdentification implements Serializable {
 
     private String nick;
 
-    private String faculty;
+    private College college;
 
-    public PlayerIdentification(String nick, String faculty) {
+    public PlayerIdentification(String nick, College college) {
         this.nick = nick;
-        this.faculty = faculty;
+        this.college = college;
     }
 
     public String getNick() {
@@ -21,11 +23,11 @@ public class PlayerIdentification implements Serializable {
         this.nick = nick;
     }
 
-    public String getFaculty() {
-        return faculty;
+    public College getCollege() {
+        return college;
     }
 
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
+    public void setCollege(College college) {
+        this.college = college;
     }
 }

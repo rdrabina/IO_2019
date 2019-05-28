@@ -3,10 +3,15 @@ package player;
 import helpers.ColorHelper;
 import helpers.Position;
 
+import javax.imageio.ImageIO;
+
 import static constant.Constants.*;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -34,13 +39,21 @@ public class Player implements Serializable {
         playerColor = ColorHelper.getRandomColor();
     }
 
+    public void updatePosition(Position position) {
+        ballList.get(0).setSprite(position);
+    }
+
     public class Ball {
         private int size;
         private Ellipse2D.Double sprite;
 
         Ball(int size, Position pos) {
-            sprite = new Ellipse2D.Double(pos.x, pos.y, 25, 25);
+            setSprite(pos);
             setSize(size);
+        }
+
+        public void setSprite(Position position) {
+            sprite = new Ellipse2D.Double(position.x, position.y, 25, 25);
         }
 
         private void setSize(int size) {
@@ -63,7 +76,7 @@ public class Player implements Serializable {
             g2.drawString("TIME: "+a, (int)(getX()-350), (int)(getY() - 260));
         }
 
-        public void draw(Graphics2D g2) {
+        public void drawBall(Graphics2D g2) {
             g2.setColor(playerColor);
             g2.fill(sprite);
         }
@@ -81,7 +94,20 @@ public class Player implements Serializable {
     }
 
     public void drawPlayer(Graphics2D g2){
-        ballList.forEach(b -> b.draw(g2));
+        drawFlag(g2);
+        ballList.forEach(b -> b.drawBall(g2));
+    }
+
+    private void drawFlag(Graphics2D g2) {
+        Ball ball = ballList.get(0);
+        Ellipse2D.Double sprite = ball.getSprite();
+        BufferedImage bufferedImage = null;
+        try {
+            bufferedImage = ImageIO.read(new File("flags/" + identification.getCollege().name() + ".jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        g2.drawImage(bufferedImage, (int) (sprite.getX() + sprite.getWidth() / 2 - 25), (int) (sprite.getY() - sprite.getHeight() / 2 - 30) , null);
     }
 
     public boolean isMouseOutsideOfPlayerCircle(Point mousePosition) {

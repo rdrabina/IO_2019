@@ -20,7 +20,7 @@ public class GameOver extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Game over");
 
-        if (isSuccess == false ) {
+        if (!isSuccess) {
             titleLabel = new JLabel("You Lost");
             titleLabel.setForeground(Color.red);
             titleLabel.setFont(new Font(Constants.FONT, Font.BOLD, 40));

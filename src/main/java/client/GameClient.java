@@ -21,19 +21,15 @@ public class GameClient extends Thread{
 
     private final String serverAdd;
     private final int serverPort;
-    private final String login;
-    private final String faculty;
     private Invoker invoker;
 
     private final Semaphore semaphore;
     private Game game;
 
-    public GameClient(String addres, int port, PlayerIdentification ind, Game game, Semaphore semaphore) {
+    public GameClient(String addres, int port, Game game, Semaphore semaphore) {
         this.semaphore = semaphore;
         this.serverAdd = addres;
         this.serverPort = port;
-        this.login = ind.getNick();
-        this.faculty = ind.getFaculty();
         this.game = game;
         this.invoker = new Invoker();
     }
@@ -59,10 +55,13 @@ public class GameClient extends Thread{
         System.out.println("Connected to the server");
     }
 
-    private void login() throws IOException{
+    private void login() throws IOException {
+        Player player = game.getPlayer();
+        PlayerIdentification identification = player.getIdentification();
         String loginJson =
                 "{" +
-                        "\"login\": \"" + login + "\"" +
+                        "\"login\": \"" + identification.getNick() + "\"" +
+                        "\"college\": \"" +  identification.getCollege() + "\"" +
                 "}";
         send(loginJson);
     }
@@ -98,7 +97,6 @@ public class GameClient extends Thread{
                 "}";
         semaphore.release();
         try {
-            System.out.println("sssssssss");
             send(serverUpdate);
         } catch (Exception e)
         {

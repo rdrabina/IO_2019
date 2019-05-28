@@ -22,7 +22,7 @@ public class DisplayGame {
 
         Game panel= new Game(semaphore, ind);
 
-        GameClient client = new GameClient("localhost", 9998, ind, panel, semaphore);
+        GameClient client = new GameClient("localhost", 9998, panel, semaphore);
         client.start();
 
         frame.setVisible(true);

@@ -13,9 +13,10 @@ import java.awt.event.WindowEvent;
 import java.util.stream.Stream;
 
 public class Login extends JFrame implements ActionListener{
-    private JLabel titleLabel, nickLabel, facultyLabel, errorLabel;
-    private JTextField nickTextField, facultyTextField;
+    private JLabel titleLabel, nickLabel, collegeLabel, errorLabel;
+    private JTextField nickTextField;
     private JButton nextButton, quitButton;
+    private JComboBox collegesBox;
 
     public Login(){
         setSize(700, 700);
@@ -28,11 +29,10 @@ public class Login extends JFrame implements ActionListener{
         titleLabel.setFont(new Font(Constants.FONT, Font.BOLD, 20));
 
         nickLabel = new JLabel("Nick:");
-        facultyLabel = new JLabel("Faculty:");
-        errorLabel = new JLabel("You must specify nickname and faculty!");
+        collegeLabel = new JLabel("College:");
+        errorLabel = new JLabel("You must specify nickname!");
 
         nickTextField = new JTextField();
-        facultyTextField = new JTextField();
 
         nextButton = new JButton("Next");
         nextButton.addActionListener(this);
@@ -40,14 +40,19 @@ public class Login extends JFrame implements ActionListener{
         quitButton = new JButton("Quit");
         quitButton.addActionListener(this);
 
+        collegesBox = new JComboBox<>(Constants.COLLEGES);
+        collegesBox.addActionListener(this);
+
         titleLabel.setBounds(300, 30, 400, 30);
         nickLabel.setBounds(130, 70, 200, 30);
-        facultyLabel.setBounds(130, 110, 200, 30);
+        collegeLabel.setBounds(130, 110, 200, 30);
         errorLabel.setBounds(200, 150, 300, 30);
+        errorLabel.setForeground(Color.RED);
         setLabelVisible(errorLabel, false);
 
         nickTextField.setBounds(300, 70,200,30);
-        facultyTextField.setBounds(300, 110, 200, 30);
+
+        collegesBox.setBounds(300, 110, 200, 30);
 
         nextButton.setBounds(300,200,100,30);
         quitButton.setBounds(300,250,100,30);
@@ -55,12 +60,12 @@ public class Login extends JFrame implements ActionListener{
 
         add(titleLabel);
         add(nickLabel);
-        add(facultyLabel);
+        add(collegeLabel);
         add(errorLabel);
         add(nickTextField);
-        add(facultyTextField);
         add(nextButton);
         add(quitButton);
+        add(collegesBox);
         setVisible(true);
     }
 
@@ -72,8 +77,9 @@ public class Login extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == nextButton) {
             String nick = nickTextField.getText();
-            String faculty = facultyTextField.getText();
-            PlayerIdentification playerIdentification = new PlayerIdentification(nick, faculty);
+            String selectedItem = (String) collegesBox.getSelectedItem();
+            College college = College.resolveFaculty(selectedItem);
+            PlayerIdentification playerIdentification = new PlayerIdentification(nick, college);
             handleInput(playerIdentification);
         } else if (e.getSource() == quitButton) {
             System.exit(0);
@@ -91,7 +97,7 @@ public class Login extends JFrame implements ActionListener{
     }
 
     private boolean isIdentificationValid(PlayerIdentification playerIdentification) {
-        return Stream.of(playerIdentification.getNick(), playerIdentification.getFaculty())
+        return Stream.of(playerIdentification.getNick(), playerIdentification.getCollege().name())
                 .allMatch(StringUtils::isNotBlank);
     }
 }
