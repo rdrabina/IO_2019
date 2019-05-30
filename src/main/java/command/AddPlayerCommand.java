@@ -17,6 +17,7 @@ public class AddPlayerCommand implements Command {
 
     @Override
     public void execute(Game game) {
+        System.out.println("add player command");
         if (!addPlayerData.login.equalsIgnoreCase(game.getPlayer().getIdentification().getNick())) {
             //todo like in other commands
             PlayerIdentification playerIdentification = new PlayerIdentification(addPlayerData.login, College.AGH);

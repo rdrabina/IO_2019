@@ -13,5 +13,7 @@ public class RemovePlanktonCommand implements Command {
     }
 
     @Override
-    public void execute(Game game) { game.getFood().removeFood(position); }
+    public void execute(Game game) {
+        System.out.println("remove plankton command");
+        game.getFood().removeFood(position); }
 }

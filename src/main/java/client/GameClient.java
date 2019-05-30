@@ -60,7 +60,7 @@ public class GameClient extends Thread{
         PlayerIdentification identification = player.getIdentification();
         String loginJson =
                 "{" +
-                        "\"login\": \"" + identification.getNick() + "\"" +
+                        "\"login\": \"" + identification.getNick() + "\"," +
                         "\"college\": \"" +  identification.getCollege() + "\"" +
                 "}";
         send(loginJson);
@@ -68,6 +68,7 @@ public class GameClient extends Thread{
 
     private void listenServer() throws IOException{
         while (true) {
+            System.out.println("listening server...");
             String m = recv().replace("'", "\"");
             String msg = m.substring(1, m.length()-1);
             System.out.println(msg);

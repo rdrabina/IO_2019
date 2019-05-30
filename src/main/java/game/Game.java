@@ -33,7 +33,7 @@ public class Game extends JPanel implements ActionListener {
     public static GameState state = MENU;
 
     private final HashMap<String, Player> players = new HashMap<>();
-    private final Player player;
+    private Player player;
     private final Food food = new Food();
 
     private final Semaphore semaphore;
@@ -163,4 +163,5 @@ public class Game extends JPanel implements ActionListener {
     public Player getPlayer() {
         return player;
     }
+    public void updatePlayer(Player p) {this.player = p;}
 }

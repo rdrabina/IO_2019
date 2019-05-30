@@ -22,8 +22,8 @@ class RemovePlayerData {
 class UpdatePlayerData {
     public String login;
     public List<Integer> coordinates;
-    public Integer size;
-    public Double angle;
+    public Integer weight;
+    public Double direction;
     public Integer velocity;
 }
 

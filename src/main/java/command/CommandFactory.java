@@ -73,6 +73,6 @@ public class CommandFactory {
         }
     }
 
-    public Invoker getInvoker() {return invoker;}
+    public Invoker getInvoker() {return this.invoker;}
 
 }

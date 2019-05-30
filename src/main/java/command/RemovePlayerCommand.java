@@ -11,6 +11,7 @@ public class RemovePlayerCommand implements Command {
 
     @Override
     public void execute(Game game) {
+        System.out.println("remove player command");
         //TODO remove player with this login
     }
 }

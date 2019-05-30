@@ -14,6 +14,7 @@ public class AddPlanktonCommand implements Command {
 
     @Override
     public void execute(Game game) {
+        System.out.println("add plankton command");
         game.getFood().addSingleFood(position);
     }
 }
