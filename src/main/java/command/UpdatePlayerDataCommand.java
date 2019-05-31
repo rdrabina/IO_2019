@@ -32,7 +32,7 @@ public class UpdatePlayerDataCommand implements Command{
             player.setAngle(updatePlayerData.direction);
             player.updateSize(updatePlayerData.weight);
             player.updateVelocity(updatePlayerData.weight);
-            player.updatePosition(new Position(updatePlayerData.coordinates.get(0), updatePlayerData.coordinates.get(1)));
+            //player.updatePosition(new Position(updatePlayerData.coordinates.get(0), updatePlayerData.coordinates.get(1)));
             game.updatePlayer(player);
         } else {
             //faculty hardcoded
